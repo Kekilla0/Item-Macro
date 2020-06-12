@@ -1,0 +1,11 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <div class="form-group stacked command">
+        <label>Command</label>
+        <textarea name="command">{{commandText}}</textarea>
+    </div>
+
+    <footer class="sheet-footer flexrow">
+        <button class = "saveMacro" type="submit"><i class="fas fa-save"></i> {{ localize "SheetMacro.saveMacro" }}</button>
+        <button class = "executeMacro" type="button"><i class="fas fa-dice-d20"></i> {{ localize "SheetMacro.executeMacro" }}</button>
+    </footer>
+</form>

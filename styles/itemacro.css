@@ -1,0 +1,17 @@
+.itemacro {
+    min-width : 360px;
+    min-height : 320px;
+}
+.itemacro form > * {
+    flex : 0;
+}
+.itemacro .form-group.command {
+    flex: 1;
+}
+.itemacro .form-group.command{
+    height : 24px;
+}
+.itemacro .form-group.command textarea {
+    height : calc(100% - 24px);
+    resize : none;
+}

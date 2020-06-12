@@ -1,0 +1,20 @@
+{
+	"name" : "itemacro",
+	"title" : "Item Macro",
+	"description" : "A module that allows inline macros in items.",
+	"author" : "Kekilla",
+	"version" : "0.1.0",
+	"minimumCoreVersion" : "0.6.0",
+	"esmodules" : ["scripts/main.js"],
+	"styles" : ["styles/itemacro.css"],
+	"languages" : [
+		{
+			"lang" : "en",
+			"name" : "English",
+			"path" : "lang/en.json"
+		}
+	],
+	"url" : "",
+	"manifest" : "",
+	"download" : ""
+}
