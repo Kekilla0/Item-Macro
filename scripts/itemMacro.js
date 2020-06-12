@@ -108,9 +108,8 @@ async function checkMacro(item)
     if(item.getFlag('itemacro','macro') === undefined || item.getFlag('itemacro','macro').data.command === "")
     {
         let command = createCommand(item);
-        await setMacro(item, command).then(() =>{
-            return command;
-        });
+        setMacro(item, command);
+        return command;
     }else{
         return item.getFlag('itemacro','macro.data.command');
     }
@@ -156,15 +155,8 @@ export async function runMacro(_actorID,_itemId) {
     if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
     if (debug) log(`Actor : `, actor);
     if (debug) log(`Item : `, item);
-    await checkMacro(item).then((check) => {
-        log("runMacro checkMacro results : ", check);
-        getMacro(item).then((macro) => {
-            if (debug) log(`Macro : `, macro);
-            executeMacro(macro.name,macro.command);
-        });
-    });
+    executeMacro("", await checkMacro(item));
 
-    
     if (debug) log(`Run Macro has executed for Actor ${actor.name} using the ${item.name} item.`);
 }
 function createCommand(item)
