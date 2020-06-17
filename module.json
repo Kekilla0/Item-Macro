@@ -1,7 +1,7 @@
 {
 	"name" : "itemacro",
 	"title" : "Item Macro",
-	"description" : "A module that allows inline macros in items.",
+	"description" : "A module that allows macro storage in items. Works well with Dynamic Effects, Furnace, or TokenBar.",
 	"author" : "Kekilla",
 	"version" : "0.2.0",
 	"minimumCoreVersion" : "0.6.0",
@@ -16,5 +16,5 @@
 	],
 	"url" : "https://github.com/Kekilla0/Item-Macro",
 	"manifest" : "https://github.com/Kekilla0/Item-Macro/raw/master/module.json",
-	"download" : ""
+	"download" : "https://github.com/Kekilla0/Item-Macro/archive/0.2.0.zip"
 }
