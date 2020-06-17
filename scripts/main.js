@@ -6,14 +6,13 @@ let hotbarHandler = (bar, data, slot) => {
     itemacro.createHotbarMacro(data, slot);
     return false;
 }
+let log = (...args) => console.log("Item Macro | ", ...args);
 
 /* Initialize Module */
 Hooks.on('init', () =>{
-    console.log('Item Macro | Initializing module.');
+    log("Initalizing Module.");
 });
-
 Hooks.on('setup', () =>{
-    //settings
     game.settings.register("itemacro",'hotbar', {
         name :"Hookbar Hook",
         hint :"Enabling this will allow item macro to create macro's when dragged to the hotbar.",
@@ -39,7 +38,6 @@ Hooks.on('setup', () =>{
     window.ItemMacro = {
         runMacro: itemacro.runMacro
     };
-    //hook hotbar
     if(game.settings.get('itemacro','hotbar')){
         Hooks._hooks.hotbarDrop = [hotbarHandler].concat(Hooks._hooks.hotbarDrop || []);
     }
@@ -48,7 +46,6 @@ Hooks.on('setup', () =>{
         //allow change
     }
 });
-/* hook onto change of settings, reload on change */
 Hooks.on('renderItemSheet', (app, html, data) => {
     itemacro.renderItemSheet(app,html,data);
 });

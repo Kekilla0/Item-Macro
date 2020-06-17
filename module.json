@@ -3,10 +3,10 @@
 	"title" : "Item Macro",
 	"description" : "A module that allows inline macros in items.",
 	"author" : "Kekilla",
-	"version" : "0.1.0",
+	"version" : "0.2.0",
 	"minimumCoreVersion" : "0.6.0",
 	"esmodules" : ["scripts/main.js"],
-	"styles" : ["styles/itemacro.css"],
+	"styles" : ["styles/macro-config.css"],
 	"languages" : [
 		{
 			"lang" : "en",
@@ -16,5 +16,5 @@
 	],
 	"url" : "https://github.com/Kekilla0/Item-Macro",
 	"manifest" : "https://github.com/Kekilla0/Item-Macro/raw/master/module.json",
-	"download" : "https://github.com/Kekilla0/Item-Macro/archive/0.1.0.zip"
+	"download" : ""
 }
