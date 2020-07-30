@@ -8,13 +8,13 @@ This is a FoundryVTT module for the 5e (as of now) system. It allows the GM to s
 
 # Usage
 Once activated, open an Item Sheet, click on the Item Macro button to open the Macro window.
-![In Action](https://gyazo.com/49cb50762a26ea91e7378811c0ba42f7)
+![In Action](https://i.gyazo.com/49cb50762a26ea91e7378811c0ba42f7.gif)
 
 Once a macro has been saved (this will override normal operation of the item) and settings are set correctly, the macro will execute instead of the normal item roll!
-![In Action](https://gyazo.com/a54c5df255fe06d6e5b618b804a0fa42)
-![In Action](https://gyazo.com/3f9c09c70f198eff0b1a8d5fad419d3c)
-![In Action](https://gyazo.com/c6aa3ac298dd4c80dae5d434dd2a04b1)
-![In Action](https://gyazo.com/412db9a45acbacf769beab4a4f7ab67f)
+![In Action](https://i.gyazo.com/a54c5df255fe06d6e5b618b804a0fa42.gif)
+![In Action](https://i.gyazo.com/3f9c09c70f198eff0b1a8d5fad419d3c.gif)
+![In Action](https://i.gyazo.com/c6aa3ac298dd4c80dae5d434dd2a04b1.gif)
+![In Action](https://i.gyazo.com/412db9a45acbacf769beab4a4f7ab67f.gif)
 
 Item Macro also has integration into Dynamic Effects Module (https://gitlab.com/tposney/dynamiceffects) allowing active effects to trigger a macro stored in the item instead of clogging up your macro directory!
 
