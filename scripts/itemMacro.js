@@ -1,6 +1,6 @@
 "use strict";
 
-let debug = false;
+let debug = true;
 let log = (...args) => console.log("Item Macro | ", ...args);
 
 export function renderItemSheet(app,html,data)
@@ -211,14 +211,17 @@ function addButtons(li,actorSheet,buttonContainer)
 export function changeButtons(app,html,data)
 {
     if(app && app.permission < 3) return;
-    if(debug) log("Change Buttons | ", app,html,data);
 
     let itemImage = html.find(data);
+    if(debug) log("Change Buttons | ", html, data, itemImage);
     if(itemImage.length > 0)
     {
         itemImage.off();
         itemImage.click(async (event) => {
             let li = $(event.currentTarget).parents(".item");
+
+            if(debug) log("LI | ", event.currentTarget);
+
             if(String(li.attr("data-item-id")) === "undefined") return;
             let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
 

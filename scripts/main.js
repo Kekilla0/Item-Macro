@@ -75,8 +75,14 @@ Hooks.on('setup', () =>{
                 itemacro.changeButtons(app,html,knownSheets[sheetName]);
             });
         }
-        Hooks.on("renderedAlt5eSheet", (app,html,data) => {itemacro.addItemSheetButtons(app,html,data)});
-        Hooks.on("renderedTidy5eSheet", (app,html,data) => {itemacro.addItemSheetButtons(app,html,data)});
+        Hooks.on("renderedAlt5eSheet", (app,html,data) => {
+            itemacro.addItemSheetButtons(app,html,data);
+            itemacro.changeButtons(app,html,".item .item-image");
+        });
+        Hooks.on("renderedTidy5eSheet", (app,html,data) => {
+            itemacro.addItemSheetButtons(app,html,data);
+            itemacro.changeButtons(app,html,".item .item-image");
+        });
     }
 });
 
