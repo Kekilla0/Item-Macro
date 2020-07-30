@@ -3,12 +3,12 @@
 let debug = false;
 let log = (...args) => console.log("Item Macro | ", ...args);
 
-function renderItemSheet(app,html,data)
+export function renderItemSheet(app,html,data)
 {
     ItemMacro._initHook(app,html,data);
 }
 
-export function i18n(key)
+function i18n(key)
 {
     return game.i18n.localize(key);
 }
@@ -78,9 +78,7 @@ async function checkMacro(item)
 {
     if(item.getFlag('itemacro','macro') === undefined || item.getFlag('itemacro','macro').data.command === "")
     {
-        let command = createCommand(item);
-        setMacro(item, command);
-        return command;
+        return "";
     }else{
         return await item.getFlag('itemacro','macro.data.command');
     }
@@ -179,7 +177,7 @@ function addButtons(li,actorSheet,buttonContainer)
     let flags = item.data.flags.itemacro?.macro;
     if(debug) log(actor,item,flags);
 
-    if(flags === undefined) return;
+    if(flags === undefined || flags?.data.command === "") return;
     
     if(!li.hasClass("expanded")) return;
 
@@ -226,7 +224,7 @@ export function changeButtons(app,html,data)
 
             let flags = item.data.flags.itemacro?.macro;
 
-            if(flags === undefined)
+            if(flags === undefined || flags?.data.command === "")
             {
                 item.roll(event);
             }else{
