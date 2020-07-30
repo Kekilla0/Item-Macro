@@ -124,7 +124,7 @@ export async function runMacro(_actorID,_itemId) {
     if(!actor) return ui.notifications.warn(`No actor by that ID.`);
     if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
     let item = actor.getOwnedItem(_itemId);
-    if (!item) return ui.notification.warn (`That actor does not own an item by that ID.`);
+    if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
 
     executeMacro(item);
 }
