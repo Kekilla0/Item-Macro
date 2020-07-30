@@ -1,11 +1,16 @@
 "use strict";
 
-let debug = true;
+let debug = false;
 let log = (...args) => console.log("Item Macro | ", ...args);
 
 export function renderItemSheet(app,html,data)
 {
     ItemMacro._initHook(app,html,data);
+}
+
+function i18n(key)
+{
+    return game.i18n.localize(key);
 }
 
 class ItemMacro extends MacroConfig
@@ -71,12 +76,9 @@ async function setMacro(item, command)
 }
 async function checkMacro(item)
 {
-    log(item);
     if(item.getFlag('itemacro','macro') === undefined || item.getFlag('itemacro','macro').data.command === "")
     {
-        let command = createCommand(item);
-        setMacro(item, command);
-        return command;
+        return "";
     }else{
         return await item.getFlag('itemacro','macro.data.command');
     }
@@ -129,7 +131,105 @@ export async function runMacro(_actorID,_itemId) {
 function createCommand(item)
 {
     //check for version, option, whatever for default command and return command string
+    switch(game.system.id)
+    {
+        case "dnd5e" :
+            return `game.dnd5e.rollItemMacro("${item.data.name}")`;
+    }
+}
 
-    //dnd5e
-    return `game.dnd5e.rollItemMacro("${item.data.name}");`
+export function addItemSheetButtons(app,html,data,triggeringElement="",buttonContainer="")
+{
+    if(app.permission < 3) return;
+
+    if(debug) log("addItemSheetButtons | ", app, html);
+
+    // Setting default element selectors
+    if (triggeringElement === "")
+        triggeringElement = ".item .item-name";
+
+    if (buttonContainer === "")
+        buttonContainer = ".item-properties";
+
+    if (["BetterNPCActor5eSheet", "BetterNPCActor5eSheetDark"].includes(app.constructor.name)) {
+      triggeringElement = ".item .npc-item-name"
+      buttonContainer = ".item-properties"
+    }
+
+    html.find(triggeringElement).click(event => {
+        let li = $(event.currentTarget).parents(".item");
+        addButtons(li,app,buttonContainer);
+    });
+
+    for (let element of html.find(triggeringElement)) {
+        let li = $(element).parents('.item');
+        addButtons(li, app, buttonContainer);
+    }
+}
+
+function addButtons(li,actorSheet,buttonContainer)
+{
+    if(debug) log(li,actorSheet,buttonContainer);
+
+    if(String(li.attr("data-item-id")) === "undefined") return;
+    let actor = actorSheet.actor;
+    let item = actor.getOwnedItem(String(li.attr("data-item-id")));
+    let flags = item.data.flags.itemacro?.macro;
+    if(debug) log(actor,item,flags);
+
+    if(flags === undefined || flags?.data.command === "") return;
+    
+    if(!li.hasClass("expanded")) return;
+
+    if(li.find(buttonContainer).find(".item-buttons").length !== 0) return;
+
+    let buttons = $(`<div class="item-buttons"></div>`);
+    
+    buttons.append(`<span class="tag"><button data-action="itemacro">${i18n("im.buttons.roll")}</button></span>`);
+    buttons.append(`<span class="tag"><button data-action="default">${i18n("im.buttons.default")}</button></span>`);
+
+    //adding the buttons to the sheet
+    let targetHTML = li; 
+    targetHTML.find(buttonContainer).prepend(buttons);
+
+    //adding click events for all buttons
+    buttons.find('button').click((event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        switch(event.target.dataset.action)
+        {
+            case "itemacro" :
+                runMacro(actor.id,item.id);
+                break;
+            case "default" :
+                item.roll(event);
+                break;
+        }
+    });
+}
+
+export function changeButtons(app,html,data)
+{
+    if(app && app.permission < 3) return;
+    if(debug) log("Change Buttons | ", app,html,data);
+
+    let itemImage = html.find(data);
+    if(itemImage.length > 0)
+    {
+        itemImage.off();
+        itemImage.click(async (event) => {
+            let li = $(event.currentTarget).parents(".item");
+            if(String(li.attr("data-item-id")) === "undefined") return;
+            let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
+
+            let flags = item.data.flags.itemacro?.macro;
+
+            if(flags === undefined || flags?.data.command === "")
+            {
+                item.roll(event);
+            }else{
+                runMacro(app.actor.id,item.id);
+            }
+        });
+    }
 }

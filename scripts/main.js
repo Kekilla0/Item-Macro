@@ -1,21 +1,46 @@
 //Import TypeScript Modules
 import * as itemacro from './itemMacro.js';
 
+let log = (...args) => console.log("Item Macro | ", ...args);
+
 let hotbarHandler = (bar, data, slot) => {
     if (data.type !== "Item") return true;
     itemacro.createHotbarMacro(data, slot);
     return false;
 }
-let log = (...args) => console.log("Item Macro | ", ...args);
+
+function i18n(key)
+{
+    return game.i18n.localize(key);
+}
+
+let knownSheets = {
+    BetterNPCActor5eSheet: ".item .rollable",
+    ActorSheet5eCharacter: ".item .item-image",
+    BetterNPCActor5eSheetDark: ".item .rollable",
+    ActorSheet5eCharacterDark: ".item .item-image",
+    DarkSheet: ".item .item-image",
+    ActorNPC5EDark: ".item .item-image",
+    DynamicActorSheet5e: ".item .item-image",
+    ActorSheet5eNPC: ".item .item-image",
+    DNDBeyondCharacterSheet5e: ".item .item-name .item-image",
+    Tidy5eSheet:  ".item .item-image",
+    Tidy5eNPC: ".item .item-image",
+    MonsterBlock5e: ".item .item-name"
+  
+  //  Sky5eSheet: ".item .item-image",
+};
 
 /* Initialize Module */
 Hooks.on('init', () =>{
     log("Initalizing Module.");
 });
+
+/* Setup Module */
 Hooks.on('setup', () =>{
     game.settings.register("itemacro",'hotbar', {
-        name :"Hookbar Hook",
-        hint :"Enabling this will allow item macro to create macro's when dragged to the hotbar.",
+        name : i18n("im.settings.barhook.title"),
+        hint : i18n("im.settings.barhook.hint"),
         scope :"world",
         config : true,
         default : false,
@@ -25,10 +50,10 @@ Hooks.on('setup', () =>{
         }
     });
     game.settings.register("itemacro",'charsheet', {
-        name :"Character Sheet Hook",
-        hint :"Enabling this will allow item macro to roll macros from the character sheet.",
+        name : i18n("im.settings.sheethook.title"),
+        hint : i18n("im.settings.sheethook.hint"),
         scope :"world",
-        config : false,
+        config : true,
         default : false,
         type : Boolean,
         onChange : value => {
@@ -44,8 +69,18 @@ Hooks.on('setup', () =>{
     //hook sheet buttons, when complete change setting ^^^ to config : true or you wont be able to test it.
     if(game.settings.get('itemacro','charsheet')){
         //allow change
+        for (let sheetName of Object.keys(knownSheets)) {
+            Hooks.on("render" + sheetName, (app,html,data) => {
+                itemacro.addItemSheetButtons(app,html,data)
+                itemacro.changeButtons(app,html,knownSheets[sheetName]);
+            });
+        }
+        Hooks.on("renderedAlt5eSheet", (app,html,data) => {itemacro.addItemSheetButtons(app,html,data)});
+        Hooks.on("renderedTidy5eSheet", (app,html,data) => {itemacro.addItemSheetButtons(app,html,data)});
     }
 });
+
+
 Hooks.on('renderItemSheet', (app, html, data) => {
     itemacro.renderItemSheet(app,html,data);
 });

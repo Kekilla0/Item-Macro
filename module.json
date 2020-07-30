@@ -1,12 +1,14 @@
 {
 	"name" : "itemacro",
 	"title" : "Item Macro",
-	"description" : "A module that allows macro storage in items. Works well with Dynamic Effects, Furnace, or TokenBar.",
-	"author" : "Kekilla",
-	"version" : "0.2.0",
+	"description" : "A module that allows macros to be stored in items and executed in various places.",
+	"author" : "Kekilla#7036",
+	"version" : "1.0.0",
 	"minimumCoreVersion" : "0.6.0",
+	"compatibleCoreVersion": "0.6.5",
 	"esmodules" : ["scripts/main.js"],
-	"styles" : ["styles/macro-config.css"],
+	"styles" : ["styles/macro-config.css","styles/button-config.css"],
+	"systems" : ["dnd5e"],
 	"languages" : [
 		{
 			"lang" : "en",
@@ -16,5 +18,5 @@
 	],
 	"url" : "https://github.com/Kekilla0/Item-Macro",
 	"manifest" : "https://github.com/Kekilla0/Item-Macro/raw/master/module.json",
-	"download" : "https://github.com/Kekilla0/Item-Macro/archive/0.2.0.zip"
+	"download" : "https://github.com/Kekilla0/Item-Macro/archive/1.0.0.zip"
 }
