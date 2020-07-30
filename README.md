@@ -1,29 +1,22 @@
-# Token Bar
-This is a FoundryVTT module for the 5e system. It populates an action bar for the token you have selected. The information contains buttons to roll equipment, spells, skills, ability checks and saves.
+# Item Macro
+This is a FoundryVTT module for the 5e (as of now) system. It allows the GM to save macros in items and the players to execute them in various ways. The macros can be executed by enabling either of the two hooks in the settings (Hotbar and CharacterSheet) or by executing them by the TokenBar Module (https://github.com/Kekilla0/TokenBar) and soon to be Token Action HUD Module (https://github.com/espositos/fvtt-tokenactionhud)
 
 # Installation
 1. Inside Foundry's Configuration and Setup screen, go to **Add-on Modules**
 2. Click "Install Module"
-3. In the Manifest URL field paste: `https://raw.githubusercontent.com/Kekilla0/TokenBar/master/module.json`
+3. In the Manifest URL field paste: `https://github.com/Kekilla0/Item-Macro/raw/master/module.json`
 
 # Usage
+Once activated, open an Item Sheet, click on the Item Macro button to open the Macro window.
+![In Action](https://gyazo.com/49cb50762a26ea91e7378811c0ba42f7)
 
-Once activated, select a token that has an actor/character sheet associated with it. You will see an action bar that is populated with features/actions/skills for that particular token.
+Once a macro has been saved (this will override normal operation of the item) and settings are set correctly, the macro will execute instead of the normal item roll!
+![In Action](https://gyazo.com/a54c5df255fe06d6e5b618b804a0fa42)
+![In Action](https://gyazo.com/3f9c09c70f198eff0b1a8d5fad419d3c)
+![In Action](https://gyazo.com/c6aa3ac298dd4c80dae5d434dd2a04b1)
+![In Action](https://gyazo.com/412db9a45acbacf769beab4a4f7ab67f)
 
-![In Action](https://cdn.discordapp.com/attachments/513918036919713802/719633520292528148/1.gif)
-
-Settings can change how the output is handled as well as if you want the module active on specific clients.
-
-![In Action](https://cdn.discordapp.com/attachments/513918036919713802/720274868716961902/Settings.gif)
-
-Better Rolls 5e Support
-
-![In Action](https://cdn.discordapp.com/attachments/513918036919713802/720274901034074162/BetterRolls.gif)
-
-Minor Quality of Life Support
-
-![In Action](https://cdn.discordapp.com/attachments/513918036919713802/720274925629210715/MinorQOL.gif)
-
+Item Macro also has integration into Dynamic Effects Module (https://gitlab.com/tposney/dynamiceffects) allowing active effects to trigger a macro stored in the item instead of clogging up your macro directory!
 
 # Support
 For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (Kekilla#7036) or open an issue here directly.
