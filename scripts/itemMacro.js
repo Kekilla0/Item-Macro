@@ -76,12 +76,7 @@ async function setMacro(item, command)
 }
 async function checkMacro(item)
 {
-    if(item.getFlag('itemacro','macro') === undefined || item.getFlag('itemacro','macro').data.command === "")
-    {
-        return "";
-    }else{
-        return await item.getFlag('itemacro','macro.data.command');
-    }
+    return hasMacro(item) ? item.getFlag('itemacro', 'macro.data.command') : "";
 }
 async function executeMacro(item)
 {
@@ -127,6 +122,27 @@ export async function runMacro(_actorID,_itemId) {
     if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
 
     executeMacro(item);
+}
+
+// Helper function to get list of all real actor items that have a macro attached.
+// This function doesn't work if the itemmacro is only on the token's/synthetic actor's item.
+export function getActorMacroItems(_actorID) {
+    let actor = game.actors.get(_actorID);
+    return actor.items.filter(item => hasMacro(item));
+}
+
+// Helper function to get list of all token actor items that have a macro attached.
+// This function works if the itemmacro is only on the token's/synthetic actor's item.
+export function getTokenActorMacroItems(_tokenID) {
+    let actor = game.actors.tokens[_tokenID];
+    return actor.items.filter(item => hasMacro(item));
+}
+
+// undefined and "" are both falsey, so if either the flag is undefined or the command is empty, this equates to false
+// and setting flag the check means you don't need to run the getFlag command more than once.
+export function hasMacro(item) {
+    let flag = item.getFlag('itemacro', 'macro');
+    return flag && flag.data.command;
 }
 
 function createCommand(item)
