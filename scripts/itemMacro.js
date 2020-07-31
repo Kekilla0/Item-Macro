@@ -132,7 +132,7 @@ export function getActorMacroItems(_actorID) {
 }
 
 export function getTokenActorMacroItems(_tokenID) {
-    let actor = game.tokens.get(_tokenID);
+    let actor = game.actors.tokens[_tokenID];
     return actor.items.filter(item => hasMacro(item));
 }
 
