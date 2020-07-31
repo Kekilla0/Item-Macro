@@ -124,13 +124,15 @@ export async function runMacro(_actorID,_itemId) {
     executeMacro(item);
 }
 
-// Helper function to get list of all actor items that have a macro attached.
+// Helper function to get list of all real actor items that have a macro attached.
 // This function doesn't work if the itemmacro is only on the token's/synthetic actor's item.
 export function getActorMacroItems(_actorID) {
     let actor = game.actors.get(_actorID);
     return actor.items.filter(item => hasMacro(item));
 }
 
+// Helper function to get list of all token actor items that have a macro attached.
+// This function works if the itemmacro is only on the token's/synthetic actor's item.
 export function getTokenActorMacroItems(_tokenID) {
     let actor = game.actors.tokens[_tokenID];
     return actor.items.filter(item => hasMacro(item));
