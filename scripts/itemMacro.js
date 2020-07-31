@@ -1,6 +1,6 @@
 "use strict";
 
-export let debug = false;
+let debug = false;
 let log = (...args) => console.log("Item Macro | ", ...args);
 
 export function renderItemSheet(app,html,data)
@@ -38,7 +38,7 @@ class ItemMacro extends MacroConfig
     async _onExecute(event) {
         event.preventDefault();
         await this._onSubmit(event, {preventClose: true}); 
-        executeMacro(this.entity);
+        executeMacro(this.entity); // maybe change to execute only code in the command window
     }    
     static _initHook(app,html,data)
     {
@@ -74,13 +74,13 @@ async function setMacro(item, command)
         }));
     });
 }
-async function checkMacro(item)
+function checkMacro(item)
 {
     return hasMacro(item) ? item.getFlag('itemacro', 'macro.data.command') : "";
 }
-async function executeMacro(item)
+function executeMacro(item)
 {
-    let cmd = await checkMacro(item);
+    let cmd = checkMacro(item);
     new Macro ({ 
         name : item.name,
         type : "script",
@@ -91,15 +91,23 @@ async function executeMacro(item)
 }
 export async function createHotbarMacro(item, slot)
 {
-    checkMacro(item.data);
-    let command = `ItemMacro.runMacro("${item.actorId}","${item.data._id}");`;
-    let name = `${item.data.name}`;
+    let command = ``, name = ``, flags = item.data.flags.itemacro?.macro;
+
+    if(flags === undefined || flags?.data.command === "")
+    {
+        command = getDefaultCommand(item);
+    }else{
+        command = `ItemMacro.runMacro("${item.actorId}","${item.data._id}");`;
+    }
+
+    name = `${item.data.name}`;
     if(!game.user.isGM)
     {        
         name += `_${game.user.charname}`;
     }else {
         name += `_GM`;
     }
+
     let macro = game.macros.entities.find(m => m.name.startsWith(name)  &&  m.data.command === command);
     if (!macro) {
         macro = await Macro.create({
@@ -112,7 +120,7 @@ export async function createHotbarMacro(item, slot)
     }
     game.user.assignHotbarMacro(macro, slot);
 }
-export async function runMacro(_actorID,_itemId) {
+export function runMacro(_actorID,_itemId) {
     let actor = (canvas.tokens.controlled.length === 1 && canvas.tokens.controlled[0].actor._id === _actorID) 
         ? canvas.tokens.controlled[0].actor 
         : game.actors.get(_actorID);
@@ -145,7 +153,7 @@ export function hasMacro(item) {
     return flag && flag.data.command;
 }
 
-function createCommand(item)
+function getDefaultCommand(item)
 {
     //check for version, option, whatever for default command and return command string
     switch(game.system.id)
