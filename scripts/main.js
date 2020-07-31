@@ -62,7 +62,8 @@ Hooks.on('setup', () =>{
     });
     window.ItemMacro = {
         runMacro: itemacro.runMacro,
-        getMacroItems: itemacro.getMacroItems,
+        getActorItems: itemacro.getActorMacroItems,
+        getTokenItems: itemacro.getTokenActorMacroItems,
         hasMacro: itemacro.hasMacro
     };
     if(game.settings.get('itemacro','hotbar')){
