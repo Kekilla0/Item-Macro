@@ -61,7 +61,8 @@ Hooks.on('setup', () =>{
         }
     });
     window.ItemMacro = {
-        runMacro: itemacro.runMacro
+        runMacro: itemacro.runMacro,
+        debug : itemacro.debug
     };
     if(game.settings.get('itemacro','hotbar')){
         Hooks._hooks.hotbarDrop = [hotbarHandler].concat(Hooks._hooks.hotbarDrop || []);

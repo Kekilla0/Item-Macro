@@ -1,6 +1,6 @@
 "use strict";
 
-let debug = true;
+export let debug = false;
 let log = (...args) => console.log("Item Macro | ", ...args);
 
 export function renderItemSheet(app,html,data)
@@ -128,6 +128,7 @@ export async function runMacro(_actorID,_itemId) {
 
     executeMacro(item);
 }
+
 function createCommand(item)
 {
     //check for version, option, whatever for default command and return command string
@@ -169,13 +170,19 @@ export function addItemSheetButtons(app,html,data,triggeringElement="",buttonCon
 
 function addButtons(li,actorSheet,buttonContainer)
 {
-    if(debug) log(li,actorSheet,buttonContainer);
+    if(debug) log("Add Buttons | ",li);
+    if(debug) log("Add Buttons | ",actorSheet);
+    if(debug) log("Add Buttons | ",buttonContainer);
 
     if(String(li.attr("data-item-id")) === "undefined") return;
     let actor = actorSheet.actor;
+    if(!actor) return;
+    if(debug) log("Add Buttons | ",actor);
     let item = actor.getOwnedItem(String(li.attr("data-item-id")));
+    if(!item) return;
+    if(debug) log("Add Buttons | ",item);
     let flags = item.data.flags.itemacro?.macro;
-    if(debug) log(actor,item,flags);
+    if(debug) log("Add Buttons | ",flags);
 
     if(flags === undefined || flags?.data.command === "") return;
     
