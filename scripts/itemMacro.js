@@ -136,7 +136,6 @@ export function runMacro(_actorID,_itemId) {
 // This function doesn't work if the itemmacro is only on the token's/synthetic actor's item.
 export function getActorMacroItems(_actorID) {
     let actor = game.actors.get(_actorID);
-    log(_actorID,actor);
     return actor.items.filter(item => hasMacro(item));
 }
 
