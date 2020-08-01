@@ -136,6 +136,7 @@ export function runMacro(_actorID,_itemId) {
 // This function doesn't work if the itemmacro is only on the token's/synthetic actor's item.
 export function getActorMacroItems(_actorID) {
     let actor = game.actors.get(_actorID);
+    log(_actorID,actor);
     return actor.items.filter(item => hasMacro(item));
 }
 
@@ -143,14 +144,15 @@ export function getActorMacroItems(_actorID) {
 // This function works if the itemmacro is only on the token's/synthetic actor's item.
 export function getTokenActorMacroItems(_tokenID) {
     let actor = game.actors.tokens[_tokenID];
+    if(!actor) actor = canvas.tokens.get(_tokenID).actor;
     return actor.items.filter(item => hasMacro(item));
 }
 
 // undefined and "" are both falsey, so if either the flag is undefined or the command is empty, this equates to false
 // and setting flag the check means you don't need to run the getFlag command more than once.
 export function hasMacro(item) {
-    let flag = item.getFlag('itemacro', 'macro');
-    return flag && flag.data.command;
+    let flag = item.data.flags.itemacro?.macro;
+    return flag && flag?.data.command;
 }
 
 function getDefaultCommand(item)
