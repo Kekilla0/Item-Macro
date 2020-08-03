@@ -80,7 +80,19 @@ function checkMacro(item)
 }
 function executeMacro(item)
 {
-    let cmd = checkMacro(item);
+    let actorID = item.actor.id;
+    let itemID = item.id;
+
+    let cmd = ``;
+
+    if(item.actor.isToken)
+    {
+        actorID = item.actor.token.id;
+        cmd += `const item = game.actors.tokens["${actorID}"].items.get("${itemID}"); ${checkMacro(item)}`;
+    }else{
+        cmd += `const item = game.actors.get("${actorID}").items.get("${itemID}"); ${checkMacro(item)}`;
+    }
+
     new Macro ({ 
         name : item.name,
         type : "script",
@@ -93,11 +105,15 @@ export async function createHotbarMacro(item, slot)
 {
     let command = ``, name = ``, flags = item.data.flags.itemacro?.macro;
 
+    log(item);
+
     if(flags === undefined || flags?.data.command === "")
     {
         command = getDefaultCommand(item);
     }else{
-        command = `ItemMacro.runMacro("${item.actorId}","${item.data._id}");`;
+        command = item.tokenId 
+            ? `ItemMacro.runMacro("${item.tokenId}","${item.data._id}");`
+            : `ItemMacro.runMacro("${item.actorId}","${item.data._id}");`
     }
 
     name = `${item.data.name}`;
@@ -120,13 +136,18 @@ export async function createHotbarMacro(item, slot)
     }
     game.user.assignHotbarMacro(macro, slot);
 }
-export function runMacro(_actorID,_itemId) {
-    let actor = (canvas.tokens.controlled.length === 1 && canvas.tokens.controlled[0].actor._id === _actorID) 
+export function runMacro(_actorID,_itemID) {
+
+    let actor = game.actors.get(_actorID)
+        ? game.actors.get(_actorID)
+        : game.actors.tokens[`${_actorID}`];
+
+    /*let actor = (canvas.tokens.controlled.length === 1 && canvas.tokens.controlled[0].actor._id === _actorID) 
         ? canvas.tokens.controlled[0].actor 
-        : game.actors.get(_actorID);
+        : game.actors.get(_actorID);*/
     if(!actor) return ui.notifications.warn(`No actor by that ID.`);
     if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
-    let item = actor.getOwnedItem(_itemId);
+    let item = actor.getOwnedItem(_itemID);
     if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
 
     executeMacro(item);
@@ -231,7 +252,14 @@ function addButtons(li,actorSheet,buttonContainer)
         switch(event.target.dataset.action)
         {
             case "itemacro" :
-                runMacro(actor.id,item.id);
+                if(actor.isToken)
+                {
+                    console.log("SUCCESSFUL RUN TOWARD PROGRESS.");
+                    runMacro(actor.token.id,item.id);
+                }else{
+                    console.log("FAILURE FAILURE FAILURE.");
+                    runMacro(actor.id,item.id);
+                }
                 break;
             case "default" :
                 item.roll(event);
@@ -263,7 +291,14 @@ export function changeButtons(app,html,data)
             {
                 item.roll(event);
             }else{
-                runMacro(app.actor.id,item.id);
+                if(app.actor.isToken)
+                {
+                    console.log("SUCCESSFUL RUN TOWARD PROGRESS.");
+                    runMacro(app.actor.token.id,item.id);
+                }else{
+                    console.log("FAILURE FAILURE FAILURE.");
+                    runMacro(app.actor.id,item.id);
+                }
             }
         });
     }
