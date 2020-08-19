@@ -254,10 +254,8 @@ function addButtons(li,actorSheet,buttonContainer)
             case "itemacro" :
                 if(actor.isToken)
                 {
-                    console.log("SUCCESSFUL RUN TOWARD PROGRESS.");
                     runMacro(actor.token.id,item.id);
                 }else{
-                    console.log("FAILURE FAILURE FAILURE.");
                     runMacro(actor.id,item.id);
                 }
                 break;
@@ -293,10 +291,8 @@ export function changeButtons(app,html,data)
             }else{
                 if(app.actor.isToken)
                 {
-                    console.log("SUCCESSFUL RUN TOWARD PROGRESS.");
                     runMacro(app.actor.token.id,item.id);
                 }else{
-                    console.log("FAILURE FAILURE FAILURE.");
                     runMacro(app.actor.id,item.id);
                 }
             }
