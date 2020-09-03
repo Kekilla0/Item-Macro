@@ -287,7 +287,12 @@ export function changeButtons(app,html,data)
 
             if(flags === undefined || flags?.data.command === "")
             {
-                item.roll(event);
+                if(item.data.type===`spell`)
+                {
+                    item.actor.useSpell(item);
+                }else {
+                    item.roll(event);
+                }
             }else{
                 if(app.actor.isToken)
                 {
