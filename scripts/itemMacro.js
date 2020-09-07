@@ -17,7 +17,8 @@ class ItemMacro extends MacroConfig
 {
     static get defaultOptions(){
         return mergeObject(super.defaultOptions, {
-            template : "modules/itemacro/templates/macro-config.html"
+            template : "modules/itemacro/templates/macro-config.html",
+            classes : ["item-macro-sheet", "sheet"]
         });
     }
     /*override*/

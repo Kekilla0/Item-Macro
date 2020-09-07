@@ -1,20 +1,20 @@
 /* --------------------------------------- */
 /*  Macro Sheet                            */
 /* --------------------------------------- */
-.macro-sheet {
+.item-macro-sheet {
     min-width: 360px;
     min-height: 320px;
   }
-  .macro-sheet form > * {
+  .item-macro-sheet form > * {
     flex: 0;
   }
-  .macro-sheet .form-group.command {
+  .item-macro-sheet .form-group.command {
     flex: 1;
   }
-  .macro-sheet .form-group.command label {
+  .item-macro-sheet .form-group.command label {
     height: 24px;
   }
-  .macro-sheet .form-group.command textarea {
+  .item-macro-sheet .form-group.command textarea {
     height: calc(100% - 24px);
     resize: none;
   }
