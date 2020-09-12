@@ -26,7 +26,8 @@ let knownSheets = {
     DNDBeyondCharacterSheet5e: ".item .item-name .item-image",
     Tidy5eSheet:  ".item .item-image",
     Tidy5eNPC: ".item .item-image",
-    MonsterBlock5e: ".item .item-name"
+    MonsterBlock5e: ".item .item-name",
+    ActorSheetSFRPGCharacter : ".item .item-image",
   
   //  Sky5eSheet: ".item .item-image",
 };
@@ -88,7 +89,6 @@ Hooks.on('setup', () =>{
         });
     }
 });
-
 
 Hooks.on('renderItemSheet', (app, html, data) => {
     itemacro.renderItemSheet(app,html,data);
