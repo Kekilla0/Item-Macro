@@ -277,6 +277,8 @@ export function changeButtons(app,html,data)
     {
         itemImage.off();
         itemImage.click(async (event) => {
+            if(game.system.id=="swade"){return;}//disable left click macros so BetterRolls can override them
+
             let li = $(event.currentTarget).parents(".item");
 
             if(debug) log("LI | ", event.currentTarget);
@@ -292,7 +294,9 @@ export function changeButtons(app,html,data)
                 {
                     item.actor.useSpell(item);
                 }else {
-                    item.roll(event);
+                    if(game.system.id=="swade"){
+                        item.roll(event);
+                    }
                 }
             }else{
                 if(app.actor.isToken)
@@ -303,5 +307,31 @@ export function changeButtons(app,html,data)
                 }
             }
         });
+        if(game.system.id == "swade"){
+            // Right click instead of left click for SWADE so Better rolls can keep the left click bind
+            itemImage.contextmenu(async (event) => {
+                let li = $(event.currentTarget).parents(".item");
+
+                if(debug) log("LI | ", event.currentTarget);
+    
+                if(String(li.attr("data-item-id")) === "undefined") return;
+                let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
+    
+                let flags = item.data.flags.itemacro?.macro;
+    
+                if(flags === undefined || flags?.data.command === "")
+                {
+                    // if macro is undefined, do nothing
+                }else{
+                    if(app.actor.isToken)
+                    {
+                        runMacro(app.actor.token.id,item.id);
+                    }else{
+                        runMacro(app.actor.id,item.id);
+                    }
+                }
+            })
+        }
+
     }
 }

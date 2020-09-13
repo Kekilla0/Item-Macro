@@ -28,7 +28,8 @@ let knownSheets = {
     Tidy5eNPC: ".item .item-image",
     MonsterBlock5e: ".item .item-name",
     ActorSheetSFRPGCharacter : ".item .item-image",
-  
+    SwadeCharacterSheet : ".item .item-image",
+    SwadeNPCSheet: ".gear .item-image"
   //  Sky5eSheet: ".item .item-image",
 };
 

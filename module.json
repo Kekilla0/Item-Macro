@@ -8,7 +8,7 @@
 	"compatibleCoreVersion": "0.6.6",
 	"esmodules" : ["scripts/main.js"],
 	"styles" : ["styles/macro-config.css","styles/button-config.css"],
-	"systems" : ["dnd5e", "sfrpg"],
+	"systems" : ["dnd5e", "sfrpg", "swade"],
 	"languages" : [
 		{
 			"lang" : "en",
