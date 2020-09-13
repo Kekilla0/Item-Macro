@@ -39,7 +39,7 @@ class ItemMacro extends MacroConfig
     async _onExecute(event) {
         event.preventDefault();
         await this._onSubmit(event, {preventClose: true}); 
-        executeMacro(this.entity); // maybe change to execute only code in the command window
+        executeMacro(this.entity); 
     }    
     static _initHook(app,html,data)
     {
@@ -288,6 +288,7 @@ export function changeButtons(app,html,data)
 
             if(flags === undefined || flags?.data.command === "")
             {
+                //case statement for different systems
                 if(item.data.type===`spell`)
                 {
                     item.actor.useSpell(item);
