@@ -3,7 +3,7 @@
 	"title" : "Item Macro",
 	"description" : "A module that allows macros to be stored in items and executed in various places.",
 	"author" : "Kekilla#7036",
-	"version" : "v1.2.0",
+	"version" : "v1.3.0",
 	"minimumCoreVersion" : "0.6.0",
 	"compatibleCoreVersion": "0.6.6",
 	"esmodules" : ["scripts/main.js"],
@@ -18,5 +18,5 @@
 	],
 	"url" : "https://github.com/Kekilla0/Item-Macro",
 	"manifest" : "https://github.com/Kekilla0/Item-Macro/raw/master/module.json",
-	"download" : "https://github.com/Kekilla0/Item-Macro/archive/v1.2.0.zip"
+	"download" : "https://github.com/Kekilla0/Item-Macro/archive/v1.3.0.zip"
 }

@@ -275,25 +275,34 @@ export function changeButtons(app,html,data)
     if(debug) log("Change Buttons | ", html, data, itemImage);
     if(itemImage.length > 0)
     {
-        itemImage.off();
+        console.log(itemImage);
+
+        if(!game.modules.get("betterrolls-swade")?.active || game.system.id !== "swade")
+        {
+            itemImage.off();
+        }
+        
         itemImage.click(async (event) => {
+            if(game.system.id==="swade") return;
+
             let li = $(event.currentTarget).parents(".item");
-
-            if(debug) log("LI | ", event.currentTarget);
-
             if(String(li.attr("data-item-id")) === "undefined") return;
             let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
-
             let flags = item.data.flags.itemacro?.macro;
 
             if(flags === undefined || flags?.data.command === "")
             {
-                //case statement for different systems
-                if(item.data.type===`spell`)
+                switch(game.system.id)
                 {
-                    item.actor.useSpell(item);
-                }else {
-                    item.roll(event);
+                    case "sfrpg" :
+                    case "dnd5e" :
+                        if(item.data.type===`spell`)
+                        {
+                            item.actor.useSpell(item);
+                        }else {
+                            item.roll(event);
+                        }
+                        break;
                 }
             }else{
                 if(app.actor.isToken)
@@ -304,5 +313,25 @@ export function changeButtons(app,html,data)
                 }
             }
         });
+
+        itemImage.contextmenu(async (event)=> {
+            if(game.system.id !== "swade") return;
+
+            let li = $(event.currentTarget).parents(".item");
+            if(String(li.attr("data-item-id")) === "undefined") return;
+            let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
+            let flags = item.data.flags.itemacro?.macro;
+
+            if(flags !== undefined || flags?.data.command !== "")
+            {
+                if(app.actor.isToken)
+                {
+                    runMacro(app.actor.token.id, item.id);
+                }else{
+                    runMacro(app.actor.id,item.id);
+                }
+            }
+        });
+
     }
 }
