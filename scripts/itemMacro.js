@@ -275,8 +275,6 @@ export function changeButtons(app,html,data)
     if(debug) log("Change Buttons | ", html, data, itemImage);
     if(itemImage.length > 0)
     {
-        console.log(itemImage);
-
         if(!game.modules.get("betterrolls-swade")?.active || game.system.id !== "swade")
         {
             itemImage.off();
