@@ -183,6 +183,8 @@ function getDefaultCommand(item)
     {
         case "dnd5e" :
             return `game.dnd5e.rollItemMacro("${item.data.name}")`;
+        case "sfrgp" :
+            return `game.sfrpg.rollItemMacro("${item.data.name}");`;
     }
 }
 
