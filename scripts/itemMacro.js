@@ -18,7 +18,7 @@ class ItemMacro extends MacroConfig
     static get defaultOptions(){
         return mergeObject(super.defaultOptions, {
             template : "modules/itemacro/templates/macro-config.html",
-            classes : ["item-macro-sheet", "sheet"]
+            classes : ["macro-sheet", "sheet"]
         });
     }
     /*override*/
@@ -60,6 +60,8 @@ class ItemMacro extends MacroConfig
             html.closest('.app').find('.open-itemacro').remove();
             let titleElement = html.closest('.app').find('.window-title');
             openButton.insertAfter(titleElement);
+
+            
         }
     }
 }
