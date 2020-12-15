@@ -287,7 +287,10 @@ export function changeButtons(app,html,data)
         itemImage.click(async (event) => {
             if(game.system.id==="swade") return;
 
-            let li = $(event.currentTarget).parents(".item");
+            let li;
+            if (app.constructor.name == "MonsterBlock5e") li = $(event.currentTarget);
+            else li = $(event.currentTarget).parents(".item");
+            
             if(String(li.attr("data-item-id")) === "undefined") return;
             let item = app.actor.getOwnedItem(String(li.attr("data-item-id")));
             let flags = item.data.flags.itemacro?.macro;
