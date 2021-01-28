@@ -17,6 +17,7 @@ function i18n(key)
 let knownSheets = {
     BetterNPCActor5eSheet: ".item .rollable",
     ActorSheet5eCharacter: ".item .item-image",
+    ActorSheet5eVehicle: ".item .item-image",
     BetterNPCActor5eSheetDark: ".item .rollable",
     ActorSheet5eCharacterDark: ".item .item-image",
     DarkSheet: ".item .item-image",
