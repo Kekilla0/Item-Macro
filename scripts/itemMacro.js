@@ -60,8 +60,6 @@ class ItemMacro extends MacroConfig
             html.closest('.app').find('.open-itemacro').remove();
             let titleElement = html.closest('.app').find('.window-title');
             openButton.insertAfter(titleElement);
-
-            
         }
     }
 }
