@@ -1,13 +1,27 @@
 {
-    "im.settings.barhook.title": "Hookbar Hook",
-    "im.settings.barhook.hint": "Enabling this will allow item macro to create macro's when dragged to the hotbar.",
+    "settings.defaultmacro.title": "Override default macro execution",
+    "settings.defaultmacro.hint": "Enabling this will allow item macro to check if an item has a macro and roll that instead of the default system's execution.",
 
-    "im.settings.sheethook.title": "Character Sheet Hook",
-    "im.settings.sheethook.hint": "Enabling this will allow item macro to roll macros from the character sheet.",
+    "settings.sheethook.title": "Character Sheet Hook",
+    "settings.sheethook.hint": "Enabling this will allow item macro to roll macros from the character sheet.",
 
-    "im.buttons.saveMacro":"Save Macro",
-    "im.buttons.executeMacro":"Execute Macro",
+    "settings.charsheet.title": "Character Sheet Hook",
+    "settings.charsheet.hint": "Enabling this will allow item macro to roll macros from the character sheet.",
 
-    "im.buttons.roll":"Execute Item Macro",
-    "im.buttons.default":"Default Sheet Roll"
+    "settings.visibilty.title" : "Player access",
+    "settings.visibilty.hint" : "Enabling this will allow player's to view and edit macros on items they own.",
+
+    "settings.icon.title" : "Display Icon Only",
+    "settings.icon.hint" : "Enabling this will trim the item sheet button to only an Icon.",
+
+    "settings.click.title" : "Right Click Override",
+    "settings.click.hint" : "Enabling this will cause item-macro (on sheethooks only) to execute on right click.",
+
+    "buttons.saveMacro":"Save Macro",
+    "buttons.executeMacro":"Execute Macro",
+
+    "buttons.roll":"Execute Item Macro",
+    "buttons.default":"Default Sheet Roll",
+
+    "error.editImage":"You cannot edit the icon for this macro."
 }
