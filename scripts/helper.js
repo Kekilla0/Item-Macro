@@ -22,7 +22,7 @@ export function register(){
   /*
     ...spread operators must be last argument
   */
-  Item.prototype.executeMacro = function({event}, ...args){
+  Item.prototype.executeMacro = function( ...args){
     if(this.hasMacro())
     {
       const macro = this.getMacro();
@@ -31,6 +31,7 @@ export function register(){
       const token = canvas.tokens.get(speaker.token);
       const character = game.user.character;
       const item = this;
+      const event = args[0] instanceof MouseEvent ? args.shift() : {};
       
       //logger.debug(macro, speaker, actor, token, character, item);
       logger.debug(macro);
@@ -105,4 +106,42 @@ export function register(){
       }
     }
   }
+}
+
+/*
+  Backwards compatability for older version of tokenactionhud
+*/
+window.ItemMacro = {
+  runMacro, getActorItems, getTokenItems, hasMacro
+}
+
+export function runMacro(_actorID, _itemID) {
+  let actor = game.actors.get(_actorID)
+    ? game.actors.get(_actorID)
+    : game.actors.tokens[`${_actorID}`];
+
+  /*let actor = (canvas.tokens.controlled.length === 1 && canvas.tokens.controlled[0].actor._id === _actorID) 
+    ? canvas.tokens.controlled[0].actor 
+    : game.actors.get(_actorID);*/
+  if(!actor) return ui.notifications.warn(`No actor by that ID.`);
+  if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
+  let item = actor.getOwnedItem(_itemID);
+  if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
+
+  item.executeMacro();
+}
+
+export function getTokenItems(_tokenID) {
+  let actor = game.actors.tokens[_tokenID];
+  if(!actor) actor = canvas.tokens.get(_tokenID).actor;
+  return actor.items.filter(item => item.hasMacro());
+}
+
+export function getActorItems(_actorID) {
+  let actor = game.actors.get(_actorID);
+  return actor.items.filter(item => item.hasMacro());
+}
+
+export function hasMacro(item){
+  return item.hasMacro();
 }
