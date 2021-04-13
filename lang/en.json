@@ -1,4 +1,7 @@
 {
+    "settings.debug.title": "Debug (Client Setting)",
+    "settings.debug.hint": "Console debugging information.",
+
     "settings.defaultmacro.title": "Override default macro execution",
     "settings.defaultmacro.hint": "Enabling this will allow item macro to check if an item has a macro and roll that instead of the default system's execution.",
 
@@ -14,7 +17,7 @@
     "settings.icon.title" : "Display Icon Only",
     "settings.icon.hint" : "Enabling this will trim the item sheet button to only an Icon.",
 
-    "settings.click.title" : "Right Click Override",
+    "settings.click.title" : "Right Click Override (Client Setting)",
     "settings.click.hint" : "Enabling this will cause item-macro (on sheethooks only) to execute on right click.",
 
     "buttons.saveMacro":"Save Macro",

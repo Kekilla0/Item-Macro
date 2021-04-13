@@ -19,16 +19,13 @@ export function register(){
     if(this.hasMacro())
       return new Macro(this.getFlag(`itemacro`, `macro`).data);
   }
-  /*
-    ...spread operators must be last argument
-  */
   Item.prototype.executeMacro = function( ...args){
     if(this.hasMacro())
     {
       const macro = this.getMacro();
-      const speaker = ChatMessage.getSpeaker();
-      const actor = game.actors.get(speaker.actor);
-      const token = canvas.tokens.get(speaker.token);
+      const speaker = ChatMessage.getSpeaker({actor : item.actor });
+      const actor = item.actor ?? game.actors.get(speaker.actor);
+      const token = item.actor.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
       const item = this;
       const event = args[0] instanceof MouseEvent ? args.shift() : {};
@@ -87,21 +84,21 @@ export function register(){
 
     for(let img of itemImages)
     {
-      let li = $(img).parents(".item");
-      let id = li.attr("data-item-id") ?? $(img).attr("data-item-id");
+      img = $(img);
+      let li = img.parents(".item");
+      let id = li.attr("data-item-id") ?? img.attr("data-item-id");
       if(!id) return;
       
       let item = app.actor.getOwnedItem(id);
-      img = $(img);
 
       if(item.hasMacro())
       {
         if(settings.value("click"))
         {
-          img.contextmenu((event) => { item.executeMacro({ event }, []); })
+          img.contextmenu((event) => { item.executeMacro(event); })
         }else{
           img.off();
-          img.click((event)=> { item.executeMacro({ event }, []); });
+          img.click((event)=> { item.executeMacro(event); });
         }
       }
     }

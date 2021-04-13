@@ -26,8 +26,8 @@ export class settings{
       this.key,
       'debug',
       {
-        name : "Debug",
-        hint : "Enable this to recieve debugging info",
+        name : i18n("settings.debug.title"),
+        hint : i18n("settings.debug.hint"),
         scope : "client",
         config : true,
         default : false,
@@ -42,11 +42,11 @@ export class settings{
       {
         name : i18n("settings.defaultmacro.title"),
         hint : i18n("settings.defaultmacro.hint"),
-        scope : "client",
+        scope : "world",
         config : true,
         default : false,
         type : Boolean,
-        onChange : window.location.reload,
+        onChange : () => window.location.reload(),
       } 
     );
   }
@@ -57,11 +57,11 @@ export class settings{
       {
         name : i18n("settings.charsheet.title"),
         hint : i18n("settings.charsheet.hint"),
-        scope : "client",
+        scope : "world",
         config : true,
         default : false,
         type : Boolean,
-        onChange : window.location.reload,
+        onChange : () => window.location.reload(),
       } 
     );
   }
@@ -100,10 +100,11 @@ export class settings{
       {
         name : i18n("settings.click.title"),
         hint : i18n("settings.click.hint"),
-        scope : "world",
+        scope : "client",
         config : true,
         default : false,
-        type : Boolean
+        type : Boolean,
+        onChange : () => window.location.reload(),
       } 
     );
   }

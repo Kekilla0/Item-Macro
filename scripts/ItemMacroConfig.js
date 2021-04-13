@@ -46,7 +46,7 @@ export class ItemMacroConfig extends MacroConfig{
   async _onExecute(event){
     event.preventDefault();
     await this.updateMacro(this._element[0].querySelectorAll('textarea')[0].value);
-    this.object.executeMacro({ event }, []);
+    this.object.executeMacro(event);
   }
 
   async updateMacro(command){

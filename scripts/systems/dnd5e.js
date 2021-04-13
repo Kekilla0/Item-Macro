@@ -17,7 +17,8 @@ export function register_helper()
     const items = actor ? actor.items.filter(i => i.name === itemName) : [];
     if ( items.length > 1 ) {
       ui.notifications.warn(`Your controlled Actor ${actor.name} has more than one Item with name ${itemName}. The first matched item will be chosen.`);
-    } else if ( items.length === 0 ) {
+    } 
+    if ( items.length === 0 ) {
       return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
     }
     const item = items[0];
@@ -25,8 +26,7 @@ export function register_helper()
     // Trigger the item roll
     if(item.hasMacro() && settings.value("defaultmacro"))
       return item.executeMacro();
-    else
-      return item.roll();
+    return item.roll();
   }
 }
 
