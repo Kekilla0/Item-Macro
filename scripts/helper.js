@@ -23,7 +23,7 @@ export function register(){
     if(this.hasMacro())
     {
       const macro = this.getMacro();
-      const speaker = ChatMessage.getSpeaker({actor : item.actor });
+      const speaker = ChatMessage.getSpeaker({actor : this.actor });
       const actor = item.actor ?? game.actors.get(speaker.actor);
       const token = item.actor.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
