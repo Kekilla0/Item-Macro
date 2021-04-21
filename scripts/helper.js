@@ -22,12 +22,12 @@ export function register(){
   Item.prototype.executeMacro = function( ...args){
     if(this.hasMacro())
     {
-      const macro = this.getMacro();
-      const speaker = ChatMessage.getSpeaker({actor : this.actor });
+      const item = this;
+      const macro = item.getMacro();
+      const speaker = ChatMessage.getSpeaker({actor : item.actor });
       const actor = item.actor ?? game.actors.get(speaker.actor);
       const token = item.actor.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
-      const item = this;
       const event = args[0] instanceof MouseEvent ? args.shift() : {};
       
       //logger.debug(macro, speaker, actor, token, character, item);
