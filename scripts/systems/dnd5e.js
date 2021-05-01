@@ -32,24 +32,30 @@ export function register_helper()
 
 export function sheetHooks()
 {
-  const renderSheets = {    
-    BetterNPCActor5eSheet: ".item .rollable",
+  const renderSheets = {
+    //Core
     ActorSheet5eCharacter: ".item .item-image",
     ActorSheet5eVehicle: ".item .item-image",
+    ActorSheet5eNPC: ".item .item-image",
+    //BetterNPC
+    BetterNPCActor5eSheet: ".item .rollable",
     BetterNPCActor5eSheetDark: ".item .rollable",
     ActorSheet5eCharacterDark: ".item .item-image",
+    //DarkSheet
     DarkSheet: ".item .item-image",
     ActorNPC5EDark: ".item .item-image",
     DynamicActorSheet5e: ".item .item-image",
-    ActorSheet5eNPC: ".item .item-image",
+    //DNDBeyond
     DNDBeyondCharacterSheet5e: ".item .item-name .item-image",
-    //Tidy5eSheet:  ".item .item-image",
+    //Tidy
+    Tidy5eSheet:  ".item .item-image",
     Tidy5eNPC: ".item .item-image",
+    //Monster Blocks
     MonsterBlock5e: ".item .item-name",
   };
   const renderedSheets = {
     Alt5eSheet : ".item .item-image", 
-    Tidy5eSheet : ".item .item-image",
+    //Tidy5eSheet : ".item .item-image",
   };
 
   return { render : renderSheets, rendered : renderedSheets };

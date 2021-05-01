@@ -3,6 +3,7 @@ import { settings } from "./settings.js";
 import * as dnd5e from "./systems/dnd5e.js";
 import * as sfrpg from "./systems/sfrpg.js";
 import * as swade from "./systems/swade.js";
+import * as dungeonworld from "./systems/dungeonworld.js";
 
 export function i18n(str)
 {
@@ -26,7 +27,7 @@ export function register(){
       const macro = item.getMacro();
       const speaker = ChatMessage.getSpeaker({actor : item.actor });
       const actor = item.actor ?? game.actors.get(speaker.actor);
-      const token = item.actor.token ?? canvas.tokens.get(speaker.token);
+      const token = item.actor?.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
       const event = args[0] instanceof MouseEvent ? args.shift() : {};
       
@@ -66,7 +67,13 @@ export function register(){
       if(settings.value("defaultmacro")) swade.register_helper();
       if(settings.value("charsheet")) sheetHooks = swade.sheetHooks();
       break;
+    case "dungeonworld" :
+      if(settings.value("defaultmacro")) dungeonworld.register_helper();
+      if(settings.value("charsheet")) sheetHooks = dungeonworld.sheetHooks();
+      break;
   }
+
+  logger.debug("Sheet Hooks | ", sheetHooks);
 
   if(sheetHooks)
   {
@@ -79,6 +86,7 @@ export function register(){
   }
 
   function changeButtonExecution(app, html, str){
+    logger.debug("changeButtonExecution | ", app, html, str);
     if(app && !app.isEditable) return;
     let itemImages = html.find(str);
 
@@ -87,9 +95,11 @@ export function register(){
       img = $(img);
       let li = img.parents(".item");
       let id = li.attr("data-item-id") ?? img.attr("data-item-id");
-      if(!id) return;
+      if(!id) return logger.debug("Id Error | ", img, li, id);
       
       let item = app.actor.getOwnedItem(id);
+
+      if(item.name === "Dagger") logger.debug("Error Info | ", img, item);
 
       if(item.hasMacro())
       {
@@ -102,6 +112,104 @@ export function register(){
         }
       }
     }
+  }
+}
+
+export function addContext(html, contextOptions, origin){
+  if(!game.user.isGM) return;
+  logger.info("Adding Context Menu Items.");
+  contextOptions.push({
+    name : `Update World Item Macros`,
+    icon : '<i class="fas fa-redo"></i>',
+    condition : () => game.user.isGM, 
+    callback : li => updateMacros(origin, li?.data("entityId")),
+  })
+}
+
+async function updateMacros(origin, _id){
+  logger.info("Update Macros Called | ", origin, _id); 
+  let item = undefined, updateInfo = [];
+  if(origin === "Directory") item = game.items.get(_id);
+  //if(origin === "Compendium") /* No clue */
+
+  let result = await Dialog.confirm({
+    title : "Item Macro Overwrite Prompt",
+    content : `Are you sure you want to overwrite all item's macros with <br>
+    <table>
+      <tr>
+        <td> Name : <td> <td> ${item.name} </td>
+      </tr>
+      <tr>
+        <td> ID : <td> <td> ${item.id} </td>
+      </tr>
+      <tr>
+        <td> Origin : <td> <td> Item ${origin} </td>
+      </tr>
+    </table>`,
+  });
+
+  let macro = item.getMacro();
+
+  logger.debug("updateMacros Info | ", item, macro, result);
+
+  if(result){
+    //update game items
+    for(let i of game.items.filter(e=> e.name === item.name && e.id !== item.id)){
+      await updateItem({ item : i, macro , location : "Item Directory"});
+    }
+
+    //update actor items
+    for(let a of game.actors){
+      await updateActor({ actor : a, name : item.name, macro, location : `Actor Directory [${a.name}]`});
+    }
+    //update scene entities
+    for(let s of game.scenes){
+      for(let t of s.data.tokens.filter(e=> !e.actorLink)){
+        let token = new Token(t, s);
+        await updateActor({ actor : token.actor, name : item.name, macro, location : `Scene [${s.name}] Token [${t.name}]`});
+      }
+    }
+
+    await Dialog.prompt({
+      title : "Item Macro Overwrite Info",
+      content : `Item Macro Overwrite Complete<hr>
+      ${updateInfo.reduce((a,v)=> a+=`
+        <table>
+          <tr>
+            <td> Actor : <td> <td> ${v.actor} </td>
+          </tr>
+          <tr>
+            <td> Token : <td> <td> ${v.token} </td>
+          </tr>
+          <tr>
+            <td> Item : <td> <td> ${v.item} </td>
+          </tr>
+          <tr>
+            <td> Location : <td> <td> ${v.location} </td>
+          </tr>
+        </table>
+        <br>
+      `, ``)}`,
+      callback : () => {},
+      options : { width : "auto", height : "auto" },
+    });
+  }
+
+  async function updateActor({ actor, name, macro, location}){
+    logger.debug("Attempting Actor Update | ", actor, name, macro);
+    for(let item of actor?.items?.filter(i=> i.data.name === name) || [])
+      await updateItem({ item, macro, location });      
+  }
+  async function updateItem({ item, macro, location }){
+    logger.debug("Attempting Item Update | ", item, macro);
+    await item.unsetFlag("itemacro", "macro");
+    await item.setFlag("itemacro", "macro", macro);
+    updateInfo.push({
+      actor     : item?.actor.id,
+      token     : item?.actor?.token?.id,
+      item      : item.id,
+      location 
+    })
   }
 }
 

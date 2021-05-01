@@ -26,6 +26,9 @@ Various different settings will change the way Item Macro interacts with the gam
 With no settings enabled, you can still execute the macro that is saved in the item, perfect for macros!
 ![In Action](https://i.gyazo.com/26ab88645e554ac5b7522a4e8b926e3c.gif)
 
+Added context menu support allowing GM users to mass update item-macros on like named items throughout the game!
+(the context menu is on items in the game directory, will update all item-macros in the item-directory, actor items, and token items)
+
 # Support
 
 For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (Kekilla#7036) or open an issue here directly.

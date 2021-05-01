@@ -50,6 +50,10 @@ export class ItemMacroConfig extends MacroConfig{
   }
 
   async updateMacro(command){
+    /*
+      Check if this is a compendium entity?
+        if it is => check if compendium is "locked" => inform user or unlock it (???)
+    */
     await this.object.unsetFlag(this.key, this.scope);
     await this.object.setFlag(this.key, this.scope, new Macro({
       name : this.object.data.name, type : "script", scope : "global", command, author : game.user.id,
