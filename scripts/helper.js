@@ -20,7 +20,7 @@ export function register(){
     if(this.hasMacro())
       return new Macro(this.getFlag(`itemacro`, `macro`).data);
   }
-  Item.prototype.executeMacro = function( ...args){
+  Item.prototype.executeMacro = function(...args){
     if(this.hasMacro())
     {
       const item = this;
@@ -29,9 +29,8 @@ export function register(){
       const actor = item.actor ?? game.actors.get(speaker.actor);
       const token = item.actor?.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
-      const event = args[0] instanceof MouseEvent ? args.shift() : {};
+      const event = args[0]?.originalEvent instanceof MouseEvent ? args.shift() : {};
       
-      //logger.debug(macro, speaker, actor, token, character, item);
       logger.debug(macro);
       logger.debug(speaker);
       logger.debug(actor);
@@ -47,6 +46,12 @@ export function register(){
         ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
         console.error(err);
       }
+    }
+  }
+  Item.prototype.setMacro = async function(macro){
+    if(macro instanceof Macro){
+      await this.unsetFlag(`itemacro`,`macro`);
+      return await this.setFlag(`itemacro`, `macro`, macro);
     }
   }
 
@@ -98,8 +103,6 @@ export function register(){
       if(!id) return logger.debug("Id Error | ", img, li, id);
       
       let item = app.actor.getOwnedItem(id);
-
-      if(item.name === "Dagger") logger.debug("Error Info | ", img, item);
 
       if(item.hasMacro())
       {
@@ -202,8 +205,7 @@ async function updateMacros(origin, _id){
   }
   async function updateItem({ item, macro, location }){
     logger.debug("Attempting Item Update | ", item, macro);
-    await item.unsetFlag("itemacro", "macro");
-    await item.setFlag("itemacro", "macro", macro);
+    await item.setMacro(macro);
     updateInfo.push({
       actor     : item?.actor.id,
       token     : item?.actor?.token?.id,
