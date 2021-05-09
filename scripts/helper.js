@@ -19,10 +19,10 @@ export function register(){
   Item.prototype.getMacro = function(){
     if(this.hasMacro())
       return new Macro(this.getFlag(`itemacro`, `macro`).data);
+    return ui.notifications.error(`${this.name} doesn't have a integrated item-macro`);
   }
   Item.prototype.executeMacro = function(...args){
-    if(this.hasMacro())
-    {
+    if(this.hasMacro()){
       const item = this;
       const macro = item.getMacro();
       const speaker = ChatMessage.getSpeaker({actor : item.actor });
