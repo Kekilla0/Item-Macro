@@ -1,13 +1,13 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
     <header class="sheet-header">
-        <img src="{{entity.img}}" data-edit="img" title="{{entity.name}}" height="64" width="64"/>
-        <h1><input name="name" type="text" value="{{entity.name}}" placeholder="Name" disabled/></h1>
+        <img src="{{data.img}}" data-edit="img" title="{{data.name}}" height="64" width="64"/>
+        <h1><input name="name" type="text" value="{{data.name}}" placeholder="Name" disabled/></h1>
     </header>
 
     <div class="form-group">
         <label>Scope</label>
         <select name="scope" disabled>
-            {{#select entity.scope}}
+            {{#select data.scope}}
             {{#each macroScopes}}
             <option value="{{this}}">{{this}}</option>
             {{/each}}
@@ -18,7 +18,7 @@
     <div class="form-group">
         <label>Type</label>
         <select name="type" disabled>
-            {{#select entity.type}}
+            {{#select data.type}}
             {{#each macroTypes}}
                 <option value="{{this}}">{{this}}</option>
             {{/each}}

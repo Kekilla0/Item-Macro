@@ -4,6 +4,7 @@ import * as dnd5e from "./systems/dnd5e.js";
 import * as sfrpg from "./systems/sfrpg.js";
 import * as swade from "./systems/swade.js";
 import * as dungeonworld from "./systems/dungeonworld.js";
+import * as ose from "./systems/ose.js"
 
 export function i18n(str)
 {
@@ -19,13 +20,12 @@ export function register(){
   Item.prototype.getMacro = function(){
     if(this.hasMacro())
       return new Macro(this.getFlag(`itemacro`, `macro`).data);
-    return ui.notifications.error(`${this.name} doesn't have a integrated item-macro`);
   }
   Item.prototype.executeMacro = function(...args){
     if(this.hasMacro()){
       const item = this;
       const macro = item.getMacro();
-      const speaker = ChatMessage.getSpeaker({actor : item.actor });
+      const speaker = ChatMessage.getSpeaker({actor : item.actor});
       const actor = item.actor ?? game.actors.get(speaker.actor);
       const token = item.actor?.token ?? canvas.tokens.get(speaker.token);
       const character = game.user.character;
@@ -49,9 +49,10 @@ export function register(){
     }
   }
   Item.prototype.setMacro = async function(macro){
+    logger.debug(this, macro);
     if(macro instanceof Macro){
       await this.unsetFlag(`itemacro`,`macro`);
-      return await this.setFlag(`itemacro`, `macro`, macro);
+      return await this.setFlag(`itemacro`, `macro`, { data :  macro.data });
     }
   }
 
@@ -75,6 +76,10 @@ export function register(){
     case "dungeonworld" :
       if(settings.value("defaultmacro")) dungeonworld.register_helper();
       if(settings.value("charsheet")) sheetHooks = dungeonworld.sheetHooks();
+      break;
+    case "ose" :
+      if(settings.value("defaultmacro")) ose.register_helper();
+      if(settings.value("charsheet")) sheetHooks = ose.sheetHooks();
       break;
   }
 
@@ -102,7 +107,7 @@ export function register(){
       let id = li.attr("data-item-id") ?? img.attr("data-item-id");
       if(!id) return logger.debug("Id Error | ", img, li, id);
       
-      let item = app.actor.getOwnedItem(id);
+      let item = app.actor.items.get(id);
 
       if(item.hasMacro())
       {
@@ -126,7 +131,7 @@ export function addContext(html, contextOptions, origin){
     icon : '<i class="fas fa-redo"></i>',
     condition : () => game.user.isGM, 
     callback : li => updateMacros(origin, li?.data("entityId")),
-  })
+  });
 }
 
 async function updateMacros(origin, _id){
@@ -211,7 +216,7 @@ async function updateMacros(origin, _id){
       token     : item?.actor?.token?.id,
       item      : item.id,
       location 
-    })
+    });
   }
 }
 
@@ -232,7 +237,7 @@ export function runMacro(_actorID, _itemID) {
     : game.actors.get(_actorID);*/
   if(!actor) return ui.notifications.warn(`No actor by that ID.`);
   if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
-  let item = actor.getOwnedItem(_itemID);
+  let item = actor.items.get(_itemID);
   if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
 
   item.executeMacro();

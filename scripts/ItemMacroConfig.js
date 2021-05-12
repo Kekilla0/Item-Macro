@@ -57,18 +57,22 @@ export class ItemMacroConfig extends MacroConfig{
 
 
   static _init(app, html, data){
-    if((settings.value("visibilty") && app.object.owner) || game.user.isGM){
+    logger.debug("App  | ", app);
+    logger.debug("HTML | ", html);
+    logger.debug("Data | ", data);
+
+    if((settings.value("visibilty") && app.object.isOwner) || game.user.isGM){
       let openButton = $(`<a class="open-itemacro" title="itemacro"><i class="fas fa-sd-card"></i>${settings.value("icon") ? "" : "Item Macro"}</a>`);
-      openButton.click( event => {
+      openButton.click(event => {
           let Macro = null;
-          for (let key in app.entity.apps) {
-              let obj = app.entity.apps[key];
+          for (let key in app.document.apps) {
+              let obj = app.document.apps[key];
               if (obj instanceof ItemMacroConfig) {
                   Macro = obj;
                   break;
               }
           }
-          if(!Macro) Macro = new ItemMacroConfig(app.entity,{});
+          if(!Macro) Macro = new ItemMacroConfig(app.document,{});
           Macro.render(true);
       });
       html.closest('.app').find('.open-itemacro').remove();

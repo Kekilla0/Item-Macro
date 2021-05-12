@@ -3,12 +3,12 @@
 	"title" : "Item Macro",
 	"description" : "A module that allows macros to be stored in items and executed in various places.",
 	"author" : "Kekilla#7036",
-	"version" : "v1.5.1",
-	"minimumCoreVersion" : "0.6.0",
-	"compatibleCoreVersion": "0.7.9",
+	"version" : "v1.5.2",
+	"minimumCoreVersion" : "0.8.0",
+	"compatibleCoreVersion": "0.8.3",
 	"esmodules" : ["scripts/hooks.js"],
 	"styles" : ["styles/button-config.css"],
-	"systems" : ["dnd5e", "sfrpg", "swade", "dungeonworld"],
+	"systems" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose"],
 	"languages" : [
 		{
 			"lang" : "en",
