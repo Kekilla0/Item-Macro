@@ -1,6 +1,6 @@
 # Item Macro
 
-This is a FoundryVTT module for the 5e, SFRPG, and SWADE (as of now) system. It allow macros to be saved inside of an item and for various different ways to execute macors.  
+This is a FoundryVTT module for the 5e, SFRPG, SWADE, Old-School Essentials, and Dungeon World (as of now) systems. It allow macros to be saved inside of an item and for various different ways to execute macors.  
 You can execute the macro from the "item" class using the executeMacro(...args) function, from the character sheet (if the settings are satisfied to do so), from the hotbar using the default rollItemMacro function for your system (if the settings are satisfied to do so), or from token-action-hud.
 
 # Known Issues
@@ -28,6 +28,12 @@ With no settings enabled, you can still execute the macro that is saved in the i
 
 Added context menu support allowing GM users to mass update item-macros on like named items throughout the game!
 (the context menu is on items in the game directory, will update all item-macros in the item-directory, actor items, and token items)
+
+Added Item Functionality
+Item.hasMacro() => returns boolean on if the item has a macro command
+Item.getMacro() => returns Macro instance, if the item has a macro command
+Item.setMacro(Macro) => overwrites and saves given Macro to the Item
+Item.executeMacro(...args) => executes Macro command, giving item, macro, speaker, actor, token, character, and event constants. Pass an event as the first argument.
 
 # Support
 
