@@ -1,18 +1,11 @@
-import {logger} from './logger.js';
-import {settings} from './settings.js';
-import {ItemMacroConfig} from './ItemMacroConfig.js';
-import * as helper from './helper.js';
+import { settings } from './settings.js';
+import { helper } from './helper.js';
+import { ItemMacroConfig } from './ItemMacroConfig.js';
 
-//CONFIG.debug.hooks = true;
-logger.info("Initializing Module.");
-/*
-  Hooks
-*/
 Hooks.on('init', settings.register );
 Hooks.on('ready', helper.register );
 Hooks.on('renderItemSheet', ItemMacroConfig._init );
-Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addContext(html, contextOptions, "Directory"));
-//Hooks.on('getCompendiumDirectoryEntryContext', helper.addContext);
+Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addContext(contextOptions, "Directory"));
 
 /*
   Known Issues : 
@@ -21,4 +14,5 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
   Ideas :
     add context menu for compendium
     add checks for if the item that is being editted is in a compendium (unlock?)
+    add a token menu for executing item macros (personal? non-release?)
 */

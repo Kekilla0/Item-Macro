@@ -3,9 +3,9 @@
 	"title" : "Item Macro",
 	"description" : "A module that allows macros to be stored in items and executed in various places.",
 	"author" : "Kekilla#7036",
-	"version" : "v1.5.2",
+	"version" : "",
 	"minimumCoreVersion" : "0.8.0",
-	"compatibleCoreVersion": "0.8.3",
+	"compatibleCoreVersion": "0.8.6",
 	"esmodules" : ["scripts/hooks.js"],
 	"styles" : ["styles/button-config.css"],
 	"systems" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose"],
@@ -26,6 +26,6 @@
 		}
 	],
 	"url" : "https://github.com/Kekilla0/Item-Macro",
-	"manifest" : "https://github.com/Kekilla0/Item-Macro/raw/master/module.json",
-	"download" : "https://github.com/Kekilla0/Item-Macro/archive/v1.5.2.zip"
+	"manifest" : "",
+	"download" : ""
 }

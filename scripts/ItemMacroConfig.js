@@ -1,4 +1,3 @@
-import { i18n } from "./helper.js";
 import { logger } from "./logger.js";
 import { settings } from "./settings.js";
 
@@ -30,7 +29,7 @@ export class ItemMacroConfig extends MacroConfig{
     Override
   */
   _onEditImage(event){
-    return ui.notifications.error(i18n("error.editImage"));
+    return ui.notifications.error(settings.i18n("error.editImage"));
   }
 
   /*

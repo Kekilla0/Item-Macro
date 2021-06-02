@@ -1,111 +1,55 @@
 import { logger } from "./logger.js";
-import { i18n } from "./helper.js";
 
-export class settings{
-  static name = "Item Macro";
-  static key = "itemacro";
-
-  
+export class settings{  
   static value(str){
-    return game.settings.get(this.key, str);
+    return game.settings.get(settings.data.name, str);
+  }
+  static i18n(key){
+    return game.i18n.localize(key);
+  }
+  static register_module(key){
+    settings.data = game.modules.get(key)?.data;
+    if(!settings.data) return logger.error("Module Registration Error | Data Error | ");
   }
   
 
   static register(){
+    settings.register_module("itemacro");
     logger.info(`Registering All Settings.`);
-    settings.register_logger();
-    settings.register_defaultmacro();
-    settings.register_sheet();
-    settings.register_permission();
-    settings.register_icon();
-    settings.register_click();
+    settings.register_settings();
   }
 
-  static register_logger(){
-    game.settings.register(
-      this.key,
-      'debug',
-      {
-        name : i18n("settings.debug.title"),
-        hint : i18n("settings.debug.hint"),
-        scope : "client",
-        config : true,
-        default : false,
-        type : Boolean
-      } 
-    );
-  }
-  static register_defaultmacro(){
-    game.settings.register(
-      this.key,
-      'defaultmacro',
-      {
-        name : i18n("settings.defaultmacro.title"),
-        hint : i18n("settings.defaultmacro.hint"),
-        scope : "world",
-        config : true,
-        default : false,
-        type : Boolean,
-        onChange : () => window.location.reload(),
-      } 
-    );
-  }
-  static register_sheet(){
-    game.settings.register(
-      this.key,
-      'charsheet',
-      {
-        name : i18n("settings.charsheet.title"),
-        hint : i18n("settings.charsheet.hint"),
-        scope : "world",
-        config : true,
-        default : false,
-        type : Boolean,
-        onChange : () => window.location.reload(),
-      } 
-    );
-  }
-  static register_permission(){
-    game.settings.register(
-      this.key,
-      'visibilty',
-      {
-        name : i18n("settings.visibilty.title"),
-        hint : i18n("settings.visibilty.hint"),
-        scope : "world",
-        config : true,
-        default : false,
-        type : Boolean
-      } 
-    );
-  }
-  static register_icon(){
-    game.settings.register(
-      this.key,
-      'icon',
-      {
-        name : i18n("settings.icon.title"),
-        hint : i18n("settings.icon.hint"),
-        scope : "world",
-        config : true,
-        default : false,
-        type : Boolean
-      } 
-    );
-  }
-  static register_click(){
-    game.settings.register(
-      this.key,
-      'click',
-      {
-        name : i18n("settings.click.title"),
-        hint : i18n("settings.click.hint"),
-        scope : "client",
-        config : true,
-        default : false,
-        type : Boolean,
-        onChange : () => window.location.reload(),
-      } 
-    );
+  static register_settings(){
+    let settingData = {
+      debug : {
+        scope : "client", config : true, default : false, type : Boolean
+      },
+      defaultmacro : {
+        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+      },
+      charsheet : {
+        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+      },
+      visibilty : {
+        scope : "world", config : true, default : false, type : Boolean
+      },
+      icon : {
+        scope : "world", config : true, default : false, type : Boolean
+      },
+      click : {
+        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+      },
+    };
+
+
+    Object.entries(settingData).forEach(([key, data])=> {
+      game.settings.register(
+        settings.data.name, key, {
+          name : settings.i18n(`settings.${key}.title`),
+          hint : settings.i18n(`settings.${key}.hint`),
+          ...data
+        }
+      );
+    })
   }
 }

@@ -1,11 +1,9 @@
-import { settings } from "./settings.js";
+import { settings } from './settings.js';
 
 export class logger {
-  static name = "Item Macro";
-  static key = "itemacro";
 
   static info(...args) {
-    console.log(`${this.name} | `, ...args);
+    console.log(`${settings?.data?.title || "" }  | `, ...args);
   }
 
   static debug(...args) {
@@ -13,8 +11,7 @@ export class logger {
       this.info("DEBUG | ", ...args);
   }
 
-  static error(...args){
-    this.info("ERROR | ", ...args);
-    ui.notifications.error(`Error `, ...args);
+  static error(...args) {
+    console.error(`${settings?.data?.title || "" } | ERROR | `, ...args);
   }
 }
