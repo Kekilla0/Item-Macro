@@ -11,7 +11,6 @@ export class settings{
     settings.data = game.modules.get(key)?.data;
     if(!settings.data) return logger.error("Module Registration Error | Data Error | ");
   }
-  
 
   static register(){
     settings.register_module("itemacro");
@@ -20,15 +19,15 @@ export class settings{
   }
 
   static register_settings(){
-    let settingData = {
+    const settingData = {
       debug : {
         scope : "client", config : true, default : false, type : Boolean
       },
       defaultmacro : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
       },
       charsheet : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
       },
       visibilty : {
         scope : "world", config : true, default : false, type : Boolean
@@ -37,7 +36,7 @@ export class settings{
         scope : "world", config : true, default : false, type : Boolean
       },
       click : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  window.location.reload,
+        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
       },
     };
 

@@ -13,7 +13,8 @@ Tidy Sheets Favorite tab will not work with this update.
 
 1. Inside Foundry's Configuration and Setup screen, go to **Add-on Modules**
 2. Click "Install Module"
-3. In the Manifest URL field paste: `https://github.com/Kekilla0/Item-Macro/raw/master/module.json`
+3. Seach for the Module, install in the Module Manager.
+4. In the Manifest URL field paste: `https://github.com/Kekilla0/Item-Macro/releases/download/v1.5.3/module.json`
 
 # Usage
 
@@ -42,6 +43,6 @@ For questions, feature requests, or bug reports, feel free to contact me on the 
 
 # License
 
-This Foundry VTT module, writen by Winks, is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+This Foundry VTT module, writen by Kekilla, is licensed under a [MIT License](https://github.com/Kekilla0/Item-Macro/blob/main/LICENSE).
 
 This work is licensed under [Foundry Virtual Tabletop EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).

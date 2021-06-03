@@ -2,10 +2,6 @@ import { logger } from "./logger.js";
 import { settings } from "./settings.js";
 
 export class ItemMacroConfig extends MacroConfig{
-  name = "Item Macro";
-  key = "itemacro";
-  scope = "macro";
-
   /*
     Override
   */
@@ -36,7 +32,7 @@ export class ItemMacroConfig extends MacroConfig{
     Override
   */
   async _updateObject(event,formData){
-    await this.updateMacro(formData.command);
+    await this.updateMacro(formData);
   }
 
   /*
@@ -44,13 +40,20 @@ export class ItemMacroConfig extends MacroConfig{
   */
   async _onExecute(event){
     event.preventDefault();
-    await this.updateMacro(this._element[0].querySelectorAll('textarea')[0].value);
+    await this.updateMacro({
+      command :  this._element[0].querySelectorAll('textarea')[0].value,
+      type : this._element[0].querySelectorAll('select')[1].value,
+    });
     this.object.executeMacro(event);
   }
 
-  async updateMacro(command){
+  async updateMacro({ command, type }){
     await this.object.setMacro(new Macro({
-      name : this.object.data.name, type : "script", scope : "global", command, author : game.user.id,
+      name : this.object.data.name, 
+      type, 
+      scope : "global", 
+      command, 
+      author : game.user.id,
     }));
   }
 

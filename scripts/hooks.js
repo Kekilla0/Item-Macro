@@ -11,6 +11,8 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
   Known Issues : 
     Favorites Tab for Tidy 5e Sheets does not work
 
+  Fixes :
+
   Ideas :
     add context menu for compendium
     add checks for if the item that is being editted is in a compendium (unlock?)

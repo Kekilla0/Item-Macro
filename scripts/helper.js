@@ -67,7 +67,7 @@ export class helper{
       try {
         fn.call(macro, item, speaker, actor, token, character, event, args);
       }catch(err){
-        ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
+        ui.notifications.error(settings.i18n("error.macroExecution"));
         logger.error(err);
       }
 
@@ -145,7 +145,7 @@ export class helper{
     if(!game.user.isGM) return;
     logger.info("Adding Context Menu Items.");
     contextOptions.push({
-      name : `Update World Item Macros`,
+      name : settings.i18n("context.label"),
       icon : '<i class="fas fa-redo"></i>',
       condition : () => game.user.isGM, 
       callback : li => updateMacros(origin, li?.data("entityId")),
@@ -158,8 +158,8 @@ export class helper{
       //if(origin === "Compendium") /* No clue */
     
       let result = await Dialog.confirm({
-        title : "Item Macro Overwrite Prompt",
-        content : `Are you sure you want to overwrite all item's macros with <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item ${origin} </td></tr></table>`,
+        title : settings.i18n("context.confirm.title"),
+        content : `${settings.i18n("context.confirm.content")} <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item ${origin} </td></tr></table>`,
       });
     
       let macro = item.getMacro();
@@ -184,8 +184,8 @@ export class helper{
         }
     
         await Dialog.prompt({
-          title : "Item Macro Overwrite Info",
-          content : `Item Macro Overwrite Complete<hr>${updateInfo.reduce((a,v)=> a+=`<table><tr><td> Actor : <td> <td> ${v.actor} </td></tr><tr><td> Token : <td> <td> ${v.token} </td></tr><tr><td> Item : <td> <td> ${v.item} </td></tr><tr><td> Location : <td> <td> ${v.location} </td></tr></table>`, ``)}`,
+          title : settings.i18n("context.prompt.title"),
+          content : `${settings.i18n("context.prompt.content")}<hr>${updateInfo.reduce((a,v)=> a+=`<table><tr><td> Actor : <td> <td> ${v.actor} </td></tr><tr><td> Token : <td> <td> ${v.token} </td></tr><tr><td> Item : <td> <td> ${v.item} </td></tr><tr><td> Location : <td> <td> ${v.location} </td></tr></table>`, ``)}`,
           callback : () => {},
           options : { width : "auto", height : "auto" },
         });
@@ -208,42 +208,4 @@ export class helper{
       }
     }
   }
-}
-
-/*
-  Backwards compatability for older version of tokenactionhud
-*/
-window.ItemMacro = {
-  runMacro, getActorItems, getTokenItems, hasMacro
-}
-
-export function runMacro(_actorID, _itemID) {
-  let actor = game.actors.get(_actorID)
-    ? game.actors.get(_actorID)
-    : game.actors.tokens[`${_actorID}`];
-
-  /*let actor = (canvas.tokens.controlled.length === 1 && canvas.tokens.controlled[0].actor._id === _actorID) 
-    ? canvas.tokens.controlled[0].actor 
-    : game.actors.get(_actorID);*/
-  if(!actor) return ui.notifications.warn(`No actor by that ID.`);
-  if(actor.permission != 3) return ui.notifications.warn(`No permission to use this actor.`);
-  let item = actor.items.get(_itemID);
-  if (!item) return ui.notifications.warn (`That actor does not own an item by that ID.`);
-
-  item.executeMacro();
-}
-
-export function getTokenItems(_tokenID) {
-  let actor = game.actors.tokens[_tokenID];
-  if(!actor) actor = canvas.tokens.get(_tokenID).actor;
-  return actor.items.filter(item => item.hasMacro());
-}
-
-export function getActorItems(_actorID) {
-  let actor = game.actors.get(_actorID);
-  return actor.items.filter(item => item.hasMacro());
-}
-
-export function hasMacro(item){
-  return item.hasMacro();
 }

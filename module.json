@@ -7,7 +7,6 @@
 	"minimumCoreVersion" : "0.8.0",
 	"compatibleCoreVersion": "0.8.6",
 	"esmodules" : ["scripts/hooks.js"],
-	"styles" : ["styles/button-config.css"],
 	"systems" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose"],
 	"languages" : [
 		{

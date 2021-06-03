@@ -22,9 +22,13 @@
 
     "buttons.saveMacro":"Save Macro",
     "buttons.executeMacro":"Execute Macro",
+    
+    "context.label" : "Update World Item Macros",
+    "context.confirm.title" : "Item Macro Overwrite Prompt",
+    "context.confirm.content" :  "Are you sure you want to overwrite all items macro's with ",
+    "context.prompt.title" : "Item Macro Overwrite Info",
+    "context.prompt.content" : "Item Macro Overwrite Complete",
 
-    "buttons.roll":"Execute Item Macro",
-    "buttons.default":"Default Sheet Roll",
-
-    "error.editImage":"You cannot edit the icon for this macro."
+    "error.editImage":"You cannot edit the icon for this macro.",
+    "error.macroExecution" : "There was an error in your macro syntax. See the console (F12) for details"
 }
