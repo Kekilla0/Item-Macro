@@ -118,8 +118,7 @@ export class helper{
       if(app && !app.isEditable) return;
       let itemImages = html.find(str);
   
-      for(let img of itemImages)
-      {
+      for(let img of itemImages){
         img = $(img);
         let li = img.parents(".item");
         let id = li.attr("data-item-id") ?? img.attr("data-item-id");
@@ -127,14 +126,16 @@ export class helper{
         
         let item = app.actor.items.get(id);
   
-        if(item.hasMacro())
-        {
+        if(item.hasMacro()){
           if(settings.value("click"))
           {
             img.contextmenu((event) => { item.executeMacro(event); })
           }else{
             img.off();
-            img.click((event)=> { item.executeMacro(event); });
+            img.click((event)=> { 
+              logger.debug("Img Click | ", img, event);
+              item.executeMacro(event); 
+            });
           }
         }
       }

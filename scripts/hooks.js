@@ -10,6 +10,7 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
 /*
   Known Issues : 
     Favorites Tab for Tidy 5e Sheets does not work
+    Tidy 5e Sheets right click.
 
   Fixes :
 

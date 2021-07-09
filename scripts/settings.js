@@ -9,7 +9,7 @@ export class settings{
   }
   static register_module(key){
     settings.data = game.modules.get(key)?.data;
-    if(!settings.data) return logger.error("Module Registration Error | Data Error | ");
+    if(!settings.data) return logger.error("Module Registration Error | Data Error | ", key);
   }
 
   static register(){
