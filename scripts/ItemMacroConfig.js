@@ -32,7 +32,9 @@ export class ItemMacroConfig extends MacroConfig{
     Override
   */
   async _updateObject(event,formData){
-    await this.updateMacro(formData);
+    await this.updateMacro(mergeObject(formData, {
+      type : "script",
+    }));
   }
 
   /*
