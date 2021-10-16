@@ -4,6 +4,7 @@ import * as dnd5e from "./systems/dnd5e.js";
 import * as sfrpg from "./systems/sfrpg.js";
 import * as swade from "./systems/swade.js";
 import * as dungeonworld from "./systems/dungeonworld.js";
+import * as demonlord from "./systems/demonlord.js";
 import * as ose from "./systems/ose.js"
 
 export class helper{
@@ -98,6 +99,10 @@ export class helper{
       case "dungeonworld" :
         if(settings.value("defaultmacro")) dungeonworld.register_helper();
         if(settings.value("charsheet")) sheetHooks = dungeonworld.sheetHooks();
+        break;
+      case "demonlord" :
+        if(settings.value("defaultmacro")) demonlord.register_helper();
+        if(settings.value("charsheet")) sheetHooks = demonlord.sheetHooks();
         break;
       case "ose" :
         if(settings.value("defaultmacro")) ose.register_helper();
