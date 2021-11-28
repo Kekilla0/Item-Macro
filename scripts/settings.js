@@ -18,16 +18,20 @@ export class settings{
     settings.register_settings();
   }
 
+  static reload(){
+    setTimeout(() => window.location.reload(), 500);
+  }
+
   static register_settings(){
     const settingData = {
       debug : {
         scope : "client", config : true, default : false, type : Boolean
       },
       defaultmacro : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
+        scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
       },
       charsheet : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
+        scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
       },
       visibilty : {
         scope : "world", config : true, default : false, type : Boolean
@@ -36,7 +40,7 @@ export class settings{
         scope : "world", config : true, default : false, type : Boolean
       },
       click : {
-        scope : "world", config : true, default : false, type : Boolean, onChange :  () => window.location.reload(),
+        scope : "world", config : true, default : false, type : Boolean, onChange :  ()=> settings.reload(),
       },
     };
 
