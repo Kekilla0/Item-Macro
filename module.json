@@ -7,7 +7,7 @@
 	"minimumCoreVersion" : "0.8.0",
 	"compatibleCoreVersion": "0.8.9",
 	"esmodules" : ["scripts/hooks.js"],
-	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord"],
+	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord", "cyberpunk-red-core"],
 	"languages" : [
 		{
 			"lang" : "en",

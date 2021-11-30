@@ -17,5 +17,5 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
   Ideas :
     add context menu for compendium
     add checks for if the item that is being editted is in a compendium (unlock?)
-    add a token menu for executing item macros (personal? non-release?)
+    add system CyberPunk RED
 */

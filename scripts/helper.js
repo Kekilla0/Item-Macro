@@ -6,6 +6,7 @@ import * as swade from "./systems/swade.js";
 import * as dungeonworld from "./systems/dungeonworld.js";
 import * as ose from "./systems/ose.js";
 import * as demonlord from "./systems/demonlord.js";
+import * as cyberpunk from "./systems/cyberpunk-red-core.js";
 
 export class helper{
   static register(){
@@ -107,6 +108,10 @@ export class helper{
       case "demonlord" :
         if(settings.value("defaultmacro")) demonlord.register_helper();
         if(settings.value("charsheet")) sheetHooks = demonlord.sheetHooks();
+        break;
+      case "cyberpunk-red-core" :
+        if(settings.value("defaultmacro")) cyberpunk.register_helper();
+        if(settings.value("charsheet")) sheetHooks = cyberpunk.sheetHooks();
         break;
     }
     if(sheetHooks){
