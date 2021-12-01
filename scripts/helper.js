@@ -120,9 +120,8 @@ export class helper{
     async function changeButtonExecution(app, html, str){
       logger.debug("changeButtonExecution : ", { app, html, str });
 
-      //!wait for --- character sheet to open
       if(helper.getSheetHooks().rendered[app.constructor.name] !== undefined)
-        await helper.waitFor((i, t) => app.rendered);
+        await helper.waitFor(() => app.rendered);
 
 
       if(app && !app.isEditable) return;
@@ -148,8 +147,6 @@ export class helper{
           }
         }
       }
-
-
     }
   }
 
