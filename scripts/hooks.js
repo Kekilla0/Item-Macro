@@ -10,6 +10,7 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
 /*
   Known Issues : 
     Tidy 5e Sheets right click.
+    Magic Item Not Firing
 
   Fixes :
     add context menu for compendium 
