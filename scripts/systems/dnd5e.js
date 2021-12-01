@@ -48,14 +48,14 @@ export function sheetHooks()
     //DNDBeyond
     DNDBeyondCharacterSheet5e: ".item .item-name .item-image",
     //Tidy
-    Tidy5eSheet:  ".item .item-image",
-    Tidy5eNPC: ".item .item-image",
+    //Tidy5eSheet:  ".item .item-image",
+    //Tidy5eNPC: ".item .item-image",
     //Monster Blocks
     MonsterBlock5e: ".item .item-name",
   };
   const renderedSheets = {
     Alt5eSheet : ".item .item-image", 
-    //Tidy5eSheet : ".item .item-image",
+    Tidy5eSheet : ".item .item-image",
   };
 
   return { render : renderSheets, rendered : renderedSheets };

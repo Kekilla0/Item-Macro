@@ -5,9 +5,9 @@
 	"author" : "Kekilla#7036",
 	"version" : "",
 	"minimumCoreVersion" : "0.8.0",
-	"compatibleCoreVersion": "0.8.8",
+	"compatibleCoreVersion": "0.8.9",
 	"esmodules" : ["scripts/hooks.js"],
-	"systems" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose"],
+	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord"],
 	"languages" : [
 		{
 			"lang" : "en",
