@@ -4,8 +4,8 @@
 	"description" : "A module that allows macros to be stored in items and executed in various places.",
 	"author" : "Kekilla#7036",
 	"version" : "",
-	"minimumCoreVersion" : "0.8.0",
-	"compatibleCoreVersion": "0.8.9",
+	"minimumCoreVersion" : "9.231",
+	"compatibleCoreVersion": "9.235",
 	"esmodules" : ["scripts/hooks.js"],
 	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord"],
 	"languages" : [
@@ -20,7 +20,7 @@
 			"name" : "itemacro-macros",
 			"label" : "Item-Macro Macro's",
 			"path" : "packs/Macros.db",
-			"entity" : "Macro",
+			"type" : "Macro",
 			"module" : "itemacro"
 		}
 	],

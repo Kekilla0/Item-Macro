@@ -178,13 +178,21 @@ export class helper{
 
   static addContext(contextOptions, origin){
     if(!game.user.isGM) return;
-    logger.info("Adding Context Menu Items.");
-    contextOptions.push({
-      name : settings.i18n("context.label"),
-      icon : '<i class="fas fa-redo"></i>',
-      condition : () => game.user.isGM, 
-      callback : li => updateMacros(origin, li?.data("entityId")),
-    });
+    logger.info("Adding Context Menu Items.", {contextOptions, origin});
+
+    if(origin == "ItemDirectory")
+      contextOptions.push({
+        name : settings.i18n("context.label"),
+        icon : '<i class="fas fa-redo"></i>',
+        condition : () => game.user.isGM, 
+        callback : li => updateMacros(origin, li?.data("entityId")),
+      });
+    
+    if(origin == "CompendiumDirectory")
+      contextOptions.push({});
+
+    if(origin == "CompendiumEntry")
+      contextOptions.push({});
 
     async function updateMacros(origin, _id){
       logger.info("Update Macros Called | ", origin, _id); 
