@@ -2,7 +2,7 @@ import { settings } from './settings.js';
 import { helper } from './helper.js';
 import { ItemMacroConfig } from './ItemMacroConfig.js';
 
-CONFIG.debug.hooks = true;
+//CONFIG.debug.hooks = true;
 
 Hooks.on('init', settings.register );
 Hooks.on('ready', helper.register );
