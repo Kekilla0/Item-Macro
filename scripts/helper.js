@@ -193,59 +193,51 @@ export class helper{
     contextOptions.push({
       name : settings.i18n("context.label"),
       icon : '<i class="fas fa-redo"></i>',
-      condition : (li) => { 
-        logger.debug("COMPENDIUM ENTRY ARGUMENTS | ", {
-          li,
-          _id : li?.data("documentId"),
-          pack : getCompendium(li?.data("documentId")),
-        }); 
-        return game.user.isGM && (game.packs.get(getCompendium(li?.data("documentId")))?.metadata.type === "Item");
-      }, 
+      condition : (li) => game.user.isGM && (game.packs.get(getCompendium(li?.data("documentId")))?.metadata.type === "Item"), 
       callback : li => updateMacros(origin, li?.data("documentId")),
     });
 
     async function updateMacros(origin, _id){
       logger.info("Update Macros Called | ", origin, _id); 
-      let item = undefined, updateInfo = [];
-      if(origin === "ItemDirectory") item = game.items.get(_id);
-      //if(origin === "Compendium") /* No clue */
+      let items = [], updateInfo = [];
+      if(origin === "ItemDirectory") items.push(game.items.get(_id));
+      if(origin == "CompendiumEntry") items.push(await game.packs.get(getCompendium(_id)).getDocument(_id));
+      if(origin === "CompendiumDirectory") items.push(...await game.packs.get(_id).getDocuments());
 
-      if(item == undefined) return logger.error(`Item ID Error`);
+      if(item == []) return logger.error(`Item ID Error`);
 
-      logger.debug("updateMacros Data | ", {origin, _id, item, updateInfo});
-    
-      let result = await Dialog.confirm({
-        title : settings.i18n("context.confirm.title"),
-        content : `${settings.i18n("context.confirm.content")} <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item in ${origin} </td></tr></table>`,
-      });
-    
-      let macro = item.getMacro();
-      logger.debug("updateMacros Data | ", {origin, _id, item, updateInfo, result, macro});
-    
-      if(result){
-        //update game items
-        for(let i of game.items.filter(e=> e.name === item.name && e.id !== item.id)){
-          await updateItem({ item : i, macro , location : "Item Directory"});
-        }
-    
-        //update actor items
-        for(let a of game.actors){
-          await updateActor({ actor : a, name : item.name, macro, location : `Actor Directory [${a.name}]`});
-        }
-        //update scene entities
-        for(let s of game.scenes){
-          for(let t of s.data.tokens.filter(e=> !e.actorLink)){
-            let token = new Token(t, s);
-            await updateActor({ actor : token.actor, name : item.name, macro, location : `Scene [${s.name}] Token [${t.name}]`});
-          }
-        }
-    
-        await Dialog.prompt({
-          title : settings.i18n("context.prompt.title"),
-          content : `${settings.i18n("context.prompt.content")}<hr>${updateInfo.reduce((a,v)=> a+=`<table><tr><td> Actor : <td> <td> ${v.actor} </td></tr><tr><td> Token : <td> <td> ${v.token} </td></tr><tr><td> Item : <td> <td> ${v.item} </td></tr><tr><td> Location : <td> <td> ${v.location} </td></tr></table>`, ``)}`,
-          callback : () => {},
-          options : { width : "auto", height : "auto" },
+      logger.debug("updateMacros Data | ", {origin, _id, items, updateInfo});
+
+      let result = false, repeatedDialog = true;
+
+      if(item.length > 1)
+        repeatedDialog = await Dialog.confirm({
+          title : "Updating from Compendium",
+          content : `Would you like a prompt for each item (${items.length} items in ${_id})?`
         });
+      
+    
+
+    
+      for(let item in items){
+        if(!item.hasMacro()) continue;
+
+        if(repeatedDialog)
+          result = await Dialog.confirm({
+            title : settings.i18n("context.confirm.title"),
+            content : `${settings.i18n("context.confirm.content")} <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item in ${origin} </td></tr></table>`,
+          });
+
+        if(result){
+          result = false;
+          let macro = item.getMacro();
+
+          logger.debug("updateMacros Data | ", {repeatedDialong, result, origin, _id, item, updateInfo ,macro});
+
+          updateDirectory(item, macro);
+          updateActors(item, macro);
+          updateTokens(item, macro);
+        }
       }
     
       async function updateActor({ actor, name, macro, location}){
@@ -266,7 +258,7 @@ export class helper{
     }
 
     function getCompendium(_id){
-      return Array.from(game.packs).reduce((a,b) => a || (b.index.get(_id) != false ? b.collection : false), false);
+      return Array.from(game.packs).reduce((a,b) => a || (b.index.get(_id) !== undefined ? b.collection : false), false);
     }
   }
 
