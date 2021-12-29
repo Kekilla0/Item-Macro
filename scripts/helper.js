@@ -50,14 +50,7 @@ export class helper{
       const character = game.user.character;
       const event = getEvent();
 
-      logger.debug(macro);
-      logger.debug(speaker);
-      logger.debug(actor);
-      logger.debug(token);
-      logger.debug(character);
-      logger.debug(item);
-      logger.debug(event);
-      logger.debug(args);
+      logger.debug("Execute Script Data | ", {macro, speaker, actor, token, character, item, event, args, [`this`] : this});
 
       //build script execution
       const body = `(async ()=>{
@@ -185,28 +178,49 @@ export class helper{
         name : settings.i18n("context.label"),
         icon : '<i class="fas fa-redo"></i>',
         condition : () => game.user.isGM, 
-        callback : li => updateMacros(origin, li?.data("entityId")),
+        callback : li => updateMacros(origin, li?.data("documentId")),
       });
     
     if(origin == "CompendiumDirectory")
-      contextOptions.push({});
+      contextOptions.push({
+        name : settings.i18n("context.label"),
+        icon : '<i class="fas fa-redo"></i>',
+        condition : (li) => game.user.isGM && (game.packs.get(li?.data("pack")).metadata.type == "Item" ?? false), 
+        callback : li => updateMacros(origin, li?.data("pack")),
+      });
 
     if(origin == "CompendiumEntry")
-      contextOptions.push({});
+    contextOptions.push({
+      name : settings.i18n("context.label"),
+      icon : '<i class="fas fa-redo"></i>',
+      condition : (li) => { 
+        logger.debug("COMPENDIUM ENTRY ARGUMENTS | ", {
+          li,
+          _id : li?.data("documentId"),
+          pack : getCompendium(li?.data("documentId")),
+        }); 
+        return game.user.isGM && (game.packs.get(getCompendium(li?.data("documentId")))?.metadata.type === "Item");
+      }, 
+      callback : li => updateMacros(origin, li?.data("documentId")),
+    });
 
     async function updateMacros(origin, _id){
       logger.info("Update Macros Called | ", origin, _id); 
       let item = undefined, updateInfo = [];
-      if(origin === "Directory") item = game.items.get(_id);
+      if(origin === "ItemDirectory") item = game.items.get(_id);
       //if(origin === "Compendium") /* No clue */
+
+      if(item == undefined) return logger.error(`Item ID Error`);
+
+      logger.debug("updateMacros Data | ", {origin, _id, item, updateInfo});
     
       let result = await Dialog.confirm({
         title : settings.i18n("context.confirm.title"),
-        content : `${settings.i18n("context.confirm.content")} <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item ${origin} </td></tr></table>`,
+        content : `${settings.i18n("context.confirm.content")} <br><table><tr><td> Name : <td> <td> ${item.name} </td></tr><tr><td> ID : <td><td> ${item.id} </td></tr><tr><td> Origin : <td> <td> Item in ${origin} </td></tr></table>`,
       });
     
       let macro = item.getMacro();
-      logger.debug("updateMacros Info | ", item, macro, result);
+      logger.debug("updateMacros Data | ", {origin, _id, item, updateInfo, result, macro});
     
       if(result){
         //update game items
@@ -249,6 +263,10 @@ export class helper{
           location 
         });
       }
+    }
+
+    function getCompendium(_id){
+      return Array.from(game.packs).reduce((a,b) => a || (b.index.get(_id) != false ? b.collection : false), false);
     }
   }
 

@@ -21,6 +21,7 @@ Hooks.on('getCompendiumEntryContext', (html, contextOptions) => helper.addContex
     !! NOT PLANNED add system CyberPunk RED !!
     add system Warhammer Fantasy
     add system Pathfinder 2e
+    add support for v9 sheet registration
     add capability to update all items in a compendium via a compendium
       !figure out a way to only add context option to items compendium
       !Update All Item Macros
