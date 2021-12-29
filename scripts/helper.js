@@ -204,24 +204,23 @@ export class helper{
       if(origin == "CompendiumEntry") items.push(await game.packs.get(getCompendium(_id)).getDocument(_id));
       if(origin === "CompendiumDirectory") items.push(...await game.packs.get(_id).getDocuments());
 
-      if(item == []) return logger.error(`Item ID Error`);
+      if(items == []) return logger.error(`Item ID Error`);
 
       logger.debug("updateMacros Data | ", {origin, _id, items, updateInfo});
 
-      let result = false, repeatedDialog = true;
+      let result = false;
+      let repeatedDialog = true;
 
-      if(item.length > 1)
+      //trim items
+      items = items.filter(item => item.hasMacro());
+
+      if(items.length > 1)
         repeatedDialog = await Dialog.confirm({
           title : "Updating from Compendium",
           content : `Would you like a prompt for each item (${items.length} items in ${_id})?`
         });
       
-    
-
-    
-      for(let item in items){
-        if(!item.hasMacro()) continue;
-
+      for(let item of items){
         if(repeatedDialog)
           result = await Dialog.confirm({
             title : settings.i18n("context.confirm.title"),
@@ -232,24 +231,51 @@ export class helper{
           result = false;
           let macro = item.getMacro();
 
-          logger.debug("updateMacros Data | ", {repeatedDialong, result, origin, _id, item, updateInfo ,macro});
+          logger.debug("updateMacros Data | ", {repeatedDialog, result, origin, _id, item, updateInfo ,macro});
 
-          updateDirectory(item, macro);
-          updateActors(item, macro);
-          updateTokens(item, macro);
+          await updateDirectory(item.name, macro);
+          await updateActors(item.name, macro);
+          await updateTokens(item.name, macro);
         }
       }
-    
-      async function updateActor({ actor, name, macro, location}){
-        logger.debug("Attempting Actor Update | ", actor, name, macro);
-        for(let item of actor?.items?.filter(i=> i.data.name === name) || [])
-          await updateItem({ item, macro, location });      
+
+      await Dialog.prompt({
+        title : settings.i18n("context.prompt.title"),
+        content : `${settings.i18n("context.prompt.content")}<hr>${updateInfo.reduce((a,v)=> a+=`<table><tr><td> Actor : <td> <td> ${v.actor} </td></tr><tr><td> Token : <td> <td> ${v.token} </td></tr><tr><td> Item : <td> <td> ${v.item} </td></tr><tr><td> Location : <td> <td> ${v.location} </td></tr></table>`, ``)}`,
+        callback : () => {},
+        options : { },
+      });
+
+      async function updateDirectory(name, macro){
+        if(origin === "ItemDirectory") return;
+        logger.debug("Attempting Item Directory Updates", {name, macro});
+
+        for(let item of game.items.filter(i => i.name === name))
+          await updateItem({ item, macro, location : "Item Directory"});
       }
+    
+      async function updateActors(name, macro){
+        logger.debug("Attempting Actor Update | ", {name, macro});
+
+        for(let item of game.actors.reduce((a,b) => [...a, ...b.items.filter(i => i.name === name)], []))
+          await updateItem({ item, macro, location : `Actor Inventory` });      
+      }
+
+      async function updateTokens(name, macro){
+        logger.debug("Attempting Token Update | ", {name, macro});
+
+        for(let item of game.scenes.reduce((a,b) => [...a, ...b.data.tokens.reduce((c,d) => [...c, ...(d.data.actorLink ? [] : d.actor.items.filter(i => i.name === name))], [])], []))
+          await updateItem({ item, macro, location : `Token Inventory` }); 
+      }
+
       async function updateItem({ item, macro, location }){
-        logger.debug("Attempting Item Update | ", item, macro);
+        if(item.hasMacro() && item.getMacro().data.command === macro.data.command) return;
+
+        logger.debug("Attempting Item Update | ", {item, macro, location});        
+
         await item.setMacro(macro);
         updateInfo.push({
-          actor     : item?.actor.id,
+          actor     : item?.actor?.id,
           token     : item?.actor?.token?.id,
           item      : item.id,
           location 
