@@ -22,6 +22,7 @@ export class helper{
     Item.prototype.getMacro = function(){
       if(this.hasMacro())
         return new Macro(this.getFlag(settings.data.name, `macro`).data);
+      //return empty macro
     }
     Item.prototype.setMacro = async function(macro){
       if(macro instanceof Macro){
