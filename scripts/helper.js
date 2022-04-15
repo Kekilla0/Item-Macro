@@ -17,23 +17,25 @@ export class helper{
 
   static registerItem(){
     Item.prototype.hasMacro = function (){
-      return !!this.getFlag(settings.data.name, `macro`)?.data?.command;
+      return !!(this.getFlag(settings.data.name, `macro`)?.command ?? this.getFlag(settings.data.name, `macro`)?.data?.command);
     }
     Item.prototype.getMacro = function(){
       if(this.hasMacro())
-        return new Macro(this.getFlag(settings.data.name, `macro`).data);
-      //return empty macro
+        return new Macro(this.getFlag(settings.data.name, `macro`)?.data ?? this.getFlag(settings.data.name, `macro`));
+      return new Macro({ img : this.img, name : this.name, scope : "global", type : "script", });
     }
+
     Item.prototype.setMacro = async function(macro){
       if(macro instanceof Macro){
         await this.unsetFlag(settings.data.name,`macro`);
-        return await this.setFlag(settings.data.name, `macro`, { data :  macro.data });
+        return await this.setFlag(settings.data.name, `macro`, macro);
       }
     }
+
     Item.prototype.executeMacro = function(...args){
       if(!this.hasMacro()) return;
 
-      switch(this.getMacro().data.type){
+      switch(this.getMacro()?.data?.type ?? this.getMacro()?.type){
         case "chat" :
           //left open if chat macros ever become a thing you would want to do inside an item?
           break;
@@ -62,7 +64,7 @@ export class helper{
 
       //build script execution
       const body = `(async ()=>{
-        ${macro.data.command}
+        ${macro?.data?.command ?? macro.command}
       })();`;
       const fn = Function("item", "speaker", "actor", "token", "character", "event", "args", body);
 

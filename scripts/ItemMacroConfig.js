@@ -15,15 +15,6 @@ export class ItemMacroConfig extends MacroConfig{
   /*
     Override
   */
-  async getData(){
-    const data = super.getData();
-    data.command = this.object.getMacro()?.data?.command || "";
-    return data;
-  }
-
-  /*
-    Override
-  */
   _onEditImage(event){
     return ui.notifications.error(settings.i18n("error.editImage"));
   }
@@ -32,9 +23,8 @@ export class ItemMacroConfig extends MacroConfig{
     Override
   */
   async _updateObject(event,formData){
-    await this.updateMacro(mergeObject(formData, {
-      type : "script",
-    }));
+    console.log("_updateObject | ", {event, formData});
+    await this.updateMacro(mergeObject(formData, { type : "script", }));
   }
 
   /*
@@ -46,12 +36,14 @@ export class ItemMacroConfig extends MacroConfig{
       command :  this._element[0].querySelectorAll('textarea')[0].value,
       type : this._element[0].querySelectorAll('select')[1].value,
     });
-    this.object.executeMacro(event);
+    this.options.item.executeMacro(event);
   }
 
   async updateMacro({ command, type }){
-    await this.object.setMacro(new Macro({
-      name : this.object.data.name, 
+    let item = this.options.item;
+    console.log("updateMacro | ", {command, type, item});
+    await item.setMacro(new Macro({
+      name : item.name, 
       type, 
       scope : "global", 
       command, 
@@ -69,6 +61,8 @@ export class ItemMacroConfig extends MacroConfig{
       let openButton = $(`<a class="open-itemacro" title="itemacro"><i class="fas fa-sd-card"></i>${settings.value("icon") ? "" : "Item Macro"}</a>`);
       openButton.click(event => {
           let Macro = null;
+          let Item = app.document;
+
           for (let key in app.document.apps) {
               let obj = app.document.apps[key];
               if (obj instanceof ItemMacroConfig) {
@@ -76,7 +70,7 @@ export class ItemMacroConfig extends MacroConfig{
                   break;
               }
           }
-          if(!Macro) Macro = new ItemMacroConfig(app.document,{});
+          if(!Macro) Macro = new ItemMacroConfig(Item.getMacro(), { item : Item });
           Macro.render(true);
       });
       html.closest('.app').find('.open-itemacro').remove();
