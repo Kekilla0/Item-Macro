@@ -10,18 +10,22 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
 /*
   Known Issues : 
     Tidy 5e Sheets right click.
+    Update calls to "this" inside of an item macro
 
   Fixes :
     !add capability to update all items via a specific item in a compendium
       ?requires update to foundry core code, issue sent
+    !fix "token" variable document issues
 
   TODO Ideas :
     add checks for if the item that is being editted is in a compendium (unlock?)
-    add system CyberPunk RED
     add capability to update all items via a compendium
+    add systems 
+      ?SW5e
+      ?Simple Worldbuilding
+      ?PF2E
+      ?Warhammer Fantasy Roleplay
+      ?Cyberpunk Red
 
   Update Notes :
-    Fix to settings not correctly saving upon exit
-    Fix for Tidy5e sheet support
-    Integrated Shadow of the Demonlord (w/ help from @patrickporto#9260)
 */

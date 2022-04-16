@@ -3,7 +3,7 @@ import { settings } from "../settings.js";
 
 export function register_helper()
 {
-  logger.info(`Registering DND5E Helpers`);
+  logger.info(`Registering Cyberpunk Red Core Helpers`);
   /*
     Override
   */

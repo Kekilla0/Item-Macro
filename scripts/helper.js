@@ -17,17 +17,29 @@ export class helper{
 
   static registerItem(){
     Item.prototype.hasMacro = function (){
-      return !!(this.getFlag(settings.data.name, `macro`)?.command ?? this.getFlag(settings.data.name, `macro`)?.data?.command);
+      let flag = this.getFlag(settings.data.name, `macro`);
+
+      logger.debug("Item | hasMacro | ", { flag });
+      return !!(flag?.command ?? flag?.data?.command);
     }
     Item.prototype.getMacro = function(){
-      if(this.hasMacro())
-        return new Macro(this.getFlag(settings.data.name, `macro`)?.data ?? this.getFlag(settings.data.name, `macro`));
+      let hasMacro = this.hasMacro();
+      let flag = this.getFlag(settings.data.name, `macro`);
+
+      logger.debug("Item | getMacro | ", { hasMacro, flag });
+
+      if(hasMacro)
+        return new Macro(flag?.data ?? flag);
       return new Macro({ img : this.img, name : this.name, scope : "global", type : "script", });
     }
 
     Item.prototype.setMacro = async function(macro){
+      let flag = this.getFlag(settings.data.name, `macro`);
+
+      logger.debug("Item | setMacro | ", { macro, flag });
+
       if(macro instanceof Macro){
-        await this.unsetFlag(settings.data.name,`macro`);
+        //await this.unsetFlag(settings.data.name,`macro`);
         return await this.setFlag(settings.data.name, `macro`, macro);
       }
     }
@@ -49,24 +61,19 @@ export class helper{
       const macro = item.getMacro();
       const speaker = ChatMessage.getSpeaker({actor : item.actor});
       const actor = item.actor ?? game.actors.get(speaker.actor);
-      const token = item.actor?.token ?? canvas.tokens.get(speaker.token);
+      const token = canvas.tokens.get(speaker.token);
       const character = game.user.character;
       const event = getEvent();
 
-      logger.debug(macro);
-      logger.debug(speaker);
-      logger.debug(actor);
-      logger.debug(token);
-      logger.debug(character);
-      logger.debug(item);
-      logger.debug(event);
-      logger.debug(args);
+      logger.debug("Item | _executeScript | ", {macro, speaker, actor, token, character, item, event, args});
 
       //build script execution
       const body = `(async ()=>{
-        ${macro?.data?.command ?? macro.command}
+        ${ macro.command ?? macro?.data?.command }
       })();`;
       const fn = Function("item", "speaker", "actor", "token", "character", "event", "args", body);
+
+      logger.debug("Item | _executeScript | ", { body, fn });
 
       //attempt script execution
       try {
