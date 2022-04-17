@@ -7,6 +7,7 @@ import * as dungeonworld from "./systems/dungeonworld.js";
 import * as ose from "./systems/ose.js";
 import * as demonlord from "./systems/demonlord.js";
 import * as cyberpunk from "./systems/cyberpunk-red-core.js";
+import * as worldbuilding from "./systems/worldbuilding.js";
 
 export class helper{
   static register(){
@@ -93,29 +94,40 @@ export class helper{
   }
 
   static systemHandler(){
-    let sheetHooks = helper.getSheetHooks();
+    let sheetHooks = null;
 
     switch(game.system.id) {
       case "dnd5e" :
         if(settings.value("defaultmacro")) dnd5e.register_helper();
+        if(settings.value("charsheet")) sheetHooks = dnd5e.sheetHooks();
         break;
       case "sfrpg" :
         if(settings.value("defaultmacro")) sfrpg.register_helper();
+        if(settings.value("charsheet")) sheetHooks = sfrpg.sheetHooks();
         break;
       case "swade" :
         if(settings.value("defaultmacro")) swade.register_helper();
+        if(settings.value("charsheet")) sheetHooks = swade.sheetHooks();
         break;
       case "dungeonworld" :
         if(settings.value("defaultmacro")) dungeonworld.register_helper();
+        if(settings.value("charsheet")) sheetHooks = dungeonworld.sheetHooks();
         break;
       case "ose" :
         if(settings.value("defaultmacro")) ose.register_helper();
+        if(settings.value("charsheet")) sheetHooks = ose.sheetHooks();
         break;
       case "demonlord" :
         if(settings.value("defaultmacro")) demonlord.register_helper();
+        if(settings.value("charsheet")) sheetHooks = demonlord.sheetHooks();
         break;
       case "cyberpunk-red-core" :
         if(settings.value("defaultmacro")) cyberpunk.register_helper();
+        if(settings.value("charsheet")) sheetHooks = cyberpunk.sheetHooks();
+        break;
+      case "worldbuilding" :
+        if(settings.value("defaultmacro")) worldbuilding.register_helper();
+        if(settings.value("charsheet")) sheetHooks = worldbuilding.sheetHooks();
         break;
     }
     if(sheetHooks){
@@ -128,14 +140,14 @@ export class helper{
     }
 
     async function changeButtonExecution(app, html, str){
-      logger.debug("changeButtonExecution : ", { app, html, str });
-
-      if(helper.getSheetHooks().rendered[app.constructor.name] !== undefined)
-        await helper.waitFor(() => app.rendered);
-
+      logger.debug("changeButtonExecution | ", { app, html, str, rendered : app.rendered});
+      if(!app.rendered) await helper.waitFor(() => app.rendered);
 
       if(app && !app.isEditable) return;
+      window["test"] = {app, html, str};
       let itemImages = html.find(str);
+
+      logger.debug("changeButtonExecution | ", { app, html, str, itemImages});
   
       for(let img of itemImages){
         img = $(img);
@@ -144,6 +156,8 @@ export class helper{
         if(!id) return logger.debug("Id Error | ", img, li, id);
         
         let item = app.actor.items.get(id);
+
+        logger.debug("changeButtonExecution | for | ", { img, li, id, item });
   
         if(item.hasMacro()){
           if(settings.value("click")){
@@ -157,32 +171,6 @@ export class helper{
           }
         }
       }
-    }
-  }
-
-  static getSheetHooks(){
-    switch(game.system.id) {
-      case "dnd5e" :
-        if(settings.value("charsheet")) return dnd5e.sheetHooks();
-        break;
-      case "sfrpg" :
-        if(settings.value("charsheet")) return sfrpg.sheetHooks();
-        break;
-      case "swade" :
-        if(settings.value("charsheet")) return swade.sheetHooks();
-        break;
-      case "dungeonworld" :
-        if(settings.value("charsheet")) return dungeonworld.sheetHooks();
-        break;
-      case "ose" :
-        if(settings.value("charsheet")) return ose.sheetHooks();
-        break;
-      case "demonlord" :
-        if(settings.value("charsheet")) return demonlord.sheetHooks();
-        break;
-      case "cyberpunk-red-core" :
-        if(settings.value("charsheet")) return cyberpunk.sheetHooks();
-        break;
     }
   }
 
