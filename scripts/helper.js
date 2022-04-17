@@ -86,7 +86,7 @@ export class helper{
 
       function getEvent(){
         let a = args[0];
-        if(a instanceof Event) return args[0].shift();
+        if(a instanceof Event) return args.shift();
         if(a?.originalEvent instanceof Event) return args.shift().originalEvent;
         return undefined;
       }

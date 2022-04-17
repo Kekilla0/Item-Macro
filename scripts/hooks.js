@@ -20,16 +20,13 @@ Hooks.on('getItemDirectoryEntryContext', (html, contextOptions) => helper.addCon
   TODO Ideas :
     add checks for if the item that is being editted is in a compendium (unlock?)
     add capability to update all items via a compendium
-    add systems 
-      ?SW5e
-        !download the system
-        !contact someone who plays the system
-      ?Simple Worldbuilding
-        !fix settings problem with the system
-        !fix drag and drop issue
+    add systems
       ?PF2E
         !basic use first
         !determine if basic operation can be used for non-items
+      ?SW5e
+        !download the system
+        !contact someone who plays the system
       ?Warhammer Fantasy Roleplay
         !download the system
         !contact someone who plays the system
