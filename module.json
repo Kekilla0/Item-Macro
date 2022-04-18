@@ -7,7 +7,7 @@
 	"minimumCoreVersion" : "9.231",
 	"compatibleCoreVersion": "9.235",
 	"esmodules" : ["scripts/hooks.js"],
-	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord"],
+	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord", "worldbuilding"],
 	"languages" : [
 		{
 			"lang" : "en",
