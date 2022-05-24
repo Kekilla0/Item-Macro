@@ -38,8 +38,8 @@ export function register_helper(){
         else return `${item.actor.name} | ${item.name}`;
       }
       async function getMacro(){
-        let macro = game.macros.find(m => m.command == getCommand(id));
-        return macro ?? await Macro.create({ name, type : "script", img : item.img, command : getCommand(id)}, { displaySheet : false });
+        let macro = game.macros.find(m => m.command == getCommand());
+        return macro ?? await Macro.create({ name, type : "script", img : item.img, command : getCommand()}, { displaySheet : false });
       }
       function getCommand(){
         return `let item = await fromUuid("${id}");\nif(item instanceof Item && item.hasMacro()) return item.executeMacro(event);`;
