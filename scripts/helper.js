@@ -62,7 +62,10 @@ export class helper{
       const macro = item.getMacro();
       const speaker = ChatMessage.getSpeaker({actor : item.actor});
       const actor = item.actor ?? game.actors.get(speaker.actor);
-      const token = canvas.tokens.get(speaker.token);
+      
+      /* MMH@TODO Check the types returned by linked and unlinked */
+			//const token = item.actor?.token?.object ?? canvas.tokens.get(speaker.token); //v9 version
+      const token = canvas.tokens.get(speaker.token); //v10 branch version (verify operation)
       const character = game.user.character;
       const event = getEvent();
 

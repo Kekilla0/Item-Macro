@@ -1,3 +1,8 @@
+This is an extremely simple modification of Item Macro to allow all users to access this functionality. Play. Nice.
+
+Original ReadMe follows.
+____
+
 # Item Macro
 
 This is a FoundryVTT module for the 5e, SFRPG, SWADE, Old-School Essentials, and Dungeon World (as of now) systems. It allow macros to be saved inside of an item and for various different ways to execute macros.  
