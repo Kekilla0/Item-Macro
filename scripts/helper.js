@@ -7,6 +7,7 @@ import * as dungeonworld from "./systems/dungeonworld.js";
 import * as ose from "./systems/ose.js";
 import * as demonlord from "./systems/demonlord.js";
 import * as cyberpunk from "./systems/cyberpunk-red-core.js";
+import * as worldbuilding from "./systems/worldbuilding.js";
 
 export class helper{
   static register(){
@@ -108,6 +109,9 @@ export class helper{
       case "cyberpunk-red-core" :
         if(settings.value("defaultmacro")) cyberpunk.register_helper();
         break;
+	  case "worldbuilding" :
+	    if(settings.value("defaultmacro")) worldbuilding.register_helper();
+        break;
     }
     if(sheetHooks){
       Object.entries(sheetHooks).forEach(([preKey, obj])=> {
@@ -173,6 +177,9 @@ export class helper{
         break;
       case "cyberpunk-red-core" :
         if(settings.value("charsheet")) return cyberpunk.sheetHooks();
+        break;
+	  case "worldbuilding" :
+        if(settings.value("charsheet")) return worldbuilding.sheetHooks();
         break;
     }
   }
