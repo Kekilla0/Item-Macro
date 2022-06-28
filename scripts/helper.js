@@ -109,8 +109,8 @@ export class helper{
       case "cyberpunk-red-core" :
         if(settings.value("defaultmacro")) cyberpunk.register_helper();
         break;
-	  case "worldbuilding" :
-	    if(settings.value("defaultmacro")) worldbuilding.register_helper();
+      case "worldbuilding" :
+	if(settings.value("defaultmacro")) worldbuilding.register_helper();
         break;
     }
     if(sheetHooks){
@@ -178,7 +178,7 @@ export class helper{
       case "cyberpunk-red-core" :
         if(settings.value("charsheet")) return cyberpunk.sheetHooks();
         break;
-	  case "worldbuilding" :
+      case "worldbuilding" :
         if(settings.value("charsheet")) return worldbuilding.sheetHooks();
         break;
     }
