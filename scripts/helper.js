@@ -110,19 +110,19 @@ export class helper{
         if(settings.value("defaultmacro")) cyberpunk.register_helper();
         break;
       case "worldbuilding" :
-	if(settings.value("defaultmacro")) worldbuilding.register_helper();
+        if(settings.value("defaultmacro")) worldbuilding.register_helper();
         break;
     }
     if(sheetHooks){
       Object.entries(sheetHooks).forEach(([preKey, obj])=> {
         if(obj instanceof Object)
           Object.entries(obj).forEach(([key, str])=> {
-            Hooks.on(`${preKey}${key}`, (app, html, data) => changeButtonExecution(app, html, str));
+            Hooks.on(`${preKey}${key}`, (app, html, data) => changeButtonExecution(app, html, str, sheetHooks.onChange));
           });
       });
     }
 
-    async function changeButtonExecution(app, html, str){
+    async function changeButtonExecution(app, html, str, onChange = []){
       logger.debug("changeButtonExecution : ", { app, html, str });
 
       if(helper.getSheetHooks().rendered[app.constructor.name] !== undefined)
@@ -150,6 +150,8 @@ export class helper{
               item.executeMacro(event); 
             });
           }
+
+          onChange.forEach( fn => fn(img, item, html) );
         }
       }
     }
