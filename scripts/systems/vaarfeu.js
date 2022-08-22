@@ -3,7 +3,7 @@ import { settings } from "../settings.js";
 
 export function register_helper()
 {
-  logger.info(`Registering Simple Vaarfeu System Helpers`);
+  logger.info(`Registering Vaarfeu System Helpers`);
 
   /*
    * Vaarfeu doesn't have this common helper function, so
