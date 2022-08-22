@@ -114,7 +114,7 @@ export class helper{
         if(settings.value("defaultmacro")) worldbuilding.register_helper();
         break;
       case "vaarfeu" :
-        if(settings.value("charsheet"))  vaarfeu.register_helper();
+        if(settings.value("defaultmacro"))  vaarfeu.register_helper();
         break;
     }
     if(sheetHooks){
