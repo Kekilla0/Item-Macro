@@ -8,7 +8,7 @@ import * as ose from "./systems/ose.js";
 import * as demonlord from "./systems/demonlord.js";
 import * as cyberpunk from "./systems/cyberpunk-red-core.js";
 import * as worldbuilding from "./systems/worldbuilding.js";
-import * as vaarfeu from "./systems/vaarfeu.js;
+import * as vaarfeu from "./systems/vaarfeu.js";
 
 export class helper{
   static register(){
@@ -114,7 +114,7 @@ export class helper{
         if(settings.value("defaultmacro")) worldbuilding.register_helper();
         break;
       case "vaarfeu" :
-        if(settings.value("defaultmacro"))  vaarfeu.register_helper();
+        if(settings.value("defaultmacro")) vaarfeu.register_helper();
         break;
     }
     if(sheetHooks){
