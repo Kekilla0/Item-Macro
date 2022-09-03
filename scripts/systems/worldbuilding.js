@@ -34,7 +34,8 @@ export function register_helper()
     /* If an item was dropped, handle it ourselves */
     if( data.type == 'Item' ) {
       const command = `game.worldbuilding.rollItemMacro('${data.data.name}')`;
-      let macro = game.macros.find(m => (m.name === data.data.name) && (m.command === command));
+      const comparisonName = settings.isV10 ? data.name : data.data.name;
+      let macro = game.macros.find(m => (m.name === comparisonName) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
           name: data.data.name,
