@@ -1,21 +1,33 @@
 {
-	"name" : "itemacro",
-	"title" : "Item Macro",
-	"description" : "A module that allows macros to be stored in items and executed in various places.",
-	"author" : "Kekilla#7036",
-	"version" : "",
-	"minimumCoreVersion" : "0.8.0",
-	"compatibleCoreVersion": "10.260",
-	"esmodules" : ["scripts/hooks.js"],
-	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord","worldbuilding", "pf2e"],
-	"languages" : [
-		{
-			"lang" : "en",
-			"name" : "English",
-			"path" : "lang/en.json"
-		}
-	],
-	"url" : "https://github.com/Kekilla0/Item-Macro",
-	"manifest" : "",
-	"download" : ""
+  "title": "Item Macro",
+  "description": "A module that allows macros to be stored in items and executed in various places.",
+  "esmodules": [
+    "scripts/hooks.js"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/Kekilla0/Item-Macro",
+  "id": "itemacro",
+  "authors": [
+    {
+      "name": "Kekilla#7036",
+      "flags": {}
+    },{
+      "name": "honeybadger#2614",
+      "url": "https://ko-fi.com/badgerwerks",
+      "flags": {}
+    }
+  ],
+  "compatibility": {
+    "minimum": "0.8.0",
+    "verified": "10"
+  },
+  "name": "itemacro",
+  "minimumCoreVersion": "0.8.0"
 }

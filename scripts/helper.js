@@ -18,14 +18,14 @@ export class helper{
 
   static registerItem(){
     Item.prototype.hasMacro = function (){
-      let flag = this.getFlag(settings.data.name, `macro`);
+      let flag = this.getFlag(settings.id, `macro`);
 
       logger.debug("Item | hasMacro | ", { flag });
       return !!(flag?.command ?? flag?.data?.command);
     }
     Item.prototype.getMacro = function(){
       let hasMacro = this.hasMacro();
-      let flag = this.getFlag(settings.data.name, `macro`);
+      let flag = this.getFlag(settings.id, `macro`);
 
       logger.debug("Item | getMacro | ", { hasMacro, flag });
 
@@ -35,20 +35,19 @@ export class helper{
     }
 
     Item.prototype.setMacro = async function(macro){
-      let flag = this.getFlag(settings.data.name, `macro`);
+      let flag = this.getFlag(settings.id, `macro`);
 
       logger.debug("Item | setMacro | ", { macro, flag });
 
       if(macro instanceof Macro){
-        //await this.unsetFlag(settings.data.name,`macro`);
-        return await this.setFlag(settings.data.name, `macro`, macro);
+        return await this.setFlag(settings.id, `macro`, macro);
       }
     }
 
     Item.prototype.executeMacro = function(...args){
       if(!this.hasMacro()) return;
-
-      switch(this.getMacro()?.data?.type ?? this.getMacro()?.type){
+      const type = settings.isV10 ? this.getMacro()?.type : this.getMacro()?.data.type;
+      switch(type){
         case "chat" :
           //left open if chat macros ever become a thing you would want to do inside an item?
           break;
@@ -134,7 +133,7 @@ export class helper{
       });
     }
 
-    async function changeButtonExecution(app, html, str){
+    async function changeButtonExecution(app, html, str, onChange = []){
       logger.debug("changeButtonExecution : ", { app, html, str });
 
       if(helper.getSheetHooks().rendered[app.constructor.name] !== undefined)
@@ -281,4 +280,5 @@ export class helper{
   static async wait(ms){
     return new Promise((resolve)=> setTimeout(resolve, ms))
   }
+
 }
