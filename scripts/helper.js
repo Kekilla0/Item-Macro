@@ -27,10 +27,12 @@ export class helper{
       let hasMacro = this.hasMacro();
       let flag = this.getFlag(settings.id, `macro`);
 
+      const command = !!flag.command;
+
       logger.debug("Item | getMacro | ", { hasMacro, flag });
 
       if(hasMacro)
-        return new Macro(flag?.data ?? flag);
+        return new Macro( command ? flag : flag?.data );
       return new Macro({ img : this.img, name : this.name, scope : "global", type : "script", });
     }
 
