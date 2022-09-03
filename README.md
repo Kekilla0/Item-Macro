@@ -1,18 +1,7 @@
-This is an extremely simple modification of Item Macro to allow all users to access this functionality. Play. Nice.
-
-Original ReadMe follows.
-____
-
 # Item Macro
 
-This is a FoundryVTT module for the 5e, SFRPG, SWADE, Old-School Essentials, and Dungeon World (as of now) systems. It allow macros to be saved inside of an item and for various different ways to execute macros.  
+This is a FoundryVTT module for the **5e, SFRPG, SWADE, Old-School Essentials, Dungeon World, and Simple Worldbuilding (as of now) systems. It allow macros to be saved inside of an item and for various different ways to execute macros.  
 You can execute the macro from the "item" class using the executeMacro(...args) function, from the character sheet (if the settings are satisfied to do so), from the hotbar using the default rollItemMacro function for your system (if the settings are satisfied to do so), or from token-action-hud.
-
-# Known Issues
-
-Token Action Hud may experience some problems with the update.
-Midi-QOL should be fine with the update.
-Tidy Sheets Favorite tab will not work with this update.
 
 # Installation
 
@@ -35,16 +24,25 @@ With no settings enabled, you can still execute the macro that is saved in the i
 Added context menu support allowing GM users to mass update item-macros on like named items throughout the game!
 (the context menu is on items in the game directory, will update all item-macros in the item-directory, actor items, and token items)
 
-Added Item Functionality
+## Added Item Functionality
 
 1. Item.hasMacro() => returns boolean on if the item has a macro command
 2. Item.getMacro() => returns Macro instance, if the item has a macro command
 3. Item.setMacro(Macro) => overwrites and saves given Macro to the Item
-4. Item.executeMacro(...args) => executes Macro command, giving item, speaker, actor, token, character, and event constants. This is recognized as the macro itself. Pass an event as the first argument.
+4. Item.executeMacro(...args) => executes Macro command, giving `item`, `speaker`, `actor`, `token`, `character`, and `event` constants. This is recognized as the macro itself. Pass an event as the first argument.
+
+## Added System Functionality
+
+### Simple Worldbuilding
+
+* Item names on actor sheets have been converted to rollable links that will execute the macro attached to the item when the "Enable Character Sheet Hook" is enabled.
+* Item names will now highlight on hover to indicate this added functionality.
+* Dragging an item to the hotbar will create a macro utilizing an added system helper `game.worldbuilding.rollItemMacro(itemNameString)`.
+* Dropping formula-type item attributes will continue to create the default `new Roll` system macro.
 
 # Support
 
-For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (Kekilla#7036) or open an issue here directly.
+For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (honeybadger#2614) or open an issue here directly.
 
 # License
 

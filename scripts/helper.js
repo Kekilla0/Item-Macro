@@ -89,7 +89,7 @@ export class helper{
 
       function getEvent(){
         let a = args[0];
-        if(a instanceof Event) return args.shift();
+        if(a instanceof Event) return args[0].shift();
         if(a?.originalEvent instanceof Event) return args.shift().originalEvent;
         return undefined;
       }
@@ -97,57 +97,51 @@ export class helper{
   }
 
   static systemHandler(){
-    let sheetHooks = null;
+    let sheetHooks = helper.getSheetHooks();
 
     switch(game.system.id) {
       case "dnd5e" :
         if(settings.value("defaultmacro")) dnd5e.register_helper();
-        if(settings.value("charsheet")) sheetHooks = dnd5e.sheetHooks();
         break;
       case "sfrpg" :
         if(settings.value("defaultmacro")) sfrpg.register_helper();
-        if(settings.value("charsheet")) sheetHooks = sfrpg.sheetHooks();
         break;
       case "swade" :
         if(settings.value("defaultmacro")) swade.register_helper();
-        if(settings.value("charsheet")) sheetHooks = swade.sheetHooks();
         break;
       case "dungeonworld" :
         if(settings.value("defaultmacro")) dungeonworld.register_helper();
-        if(settings.value("charsheet")) sheetHooks = dungeonworld.sheetHooks();
         break;
       case "ose" :
         if(settings.value("defaultmacro")) ose.register_helper();
-        if(settings.value("charsheet")) sheetHooks = ose.sheetHooks();
         break;
       case "demonlord" :
         if(settings.value("defaultmacro")) demonlord.register_helper();
-        if(settings.value("charsheet")) sheetHooks = demonlord.sheetHooks();
         break;
       case "cyberpunk-red-core" :
         if(settings.value("defaultmacro")) cyberpunk.register_helper();
-        if(settings.value("charsheet")) sheetHooks = cyberpunk.sheetHooks();
         break;
       case "worldbuilding" :
         if(settings.value("defaultmacro")) worldbuilding.register_helper();
-        if(settings.value("charsheet")) sheetHooks = worldbuilding.sheetHooks();
         break;
     }
     if(sheetHooks){
       Object.entries(sheetHooks).forEach(([preKey, obj])=> {
         if(obj instanceof Object)
           Object.entries(obj).forEach(([key, str])=> {
-            Hooks.on(`${preKey}${key}`, (app, html, data) => changeButtonExecution(app, html, str));
+            Hooks.on(`${preKey}${key}`, (app, html, data) => changeButtonExecution(app, html, str, sheetHooks.onChange));
           });
       });
     }
 
     async function changeButtonExecution(app, html, str){
-      logger.debug("changeButtonExecution | ", { app, html, str, rendered : app.rendered});
-      if(!app.rendered) await helper.waitFor(() => app.rendered);
+      logger.debug("changeButtonExecution : ", { app, html, str });
+
+      if(helper.getSheetHooks().rendered[app.constructor.name] !== undefined)
+        await helper.waitFor(() => app.rendered);
+
 
       if(app && !app.isEditable) return;
-      window["test"] = {app, html, str};
       let itemImages = html.find(str);
 
       logger.debug("changeButtonExecution | ", { app, html, str, itemImages});
@@ -172,8 +166,39 @@ export class helper{
               item.executeMacro(event); 
             });
           }
+
+          onChange.forEach( fn => fn(img, item, html) );
         }
       }
+    }
+  }
+
+  static getSheetHooks(){
+    switch(game.system.id) {
+      case "dnd5e" :
+        if(settings.value("charsheet")) return dnd5e.sheetHooks();
+        break;
+      case "sfrpg" :
+        if(settings.value("charsheet")) return sfrpg.sheetHooks();
+        break;
+      case "swade" :
+        if(settings.value("charsheet")) return swade.sheetHooks();
+        break;
+      case "dungeonworld" :
+        if(settings.value("charsheet")) return dungeonworld.sheetHooks();
+        break;
+      case "ose" :
+        if(settings.value("charsheet")) return ose.sheetHooks();
+        break;
+      case "demonlord" :
+        if(settings.value("charsheet")) return demonlord.sheetHooks();
+        break;
+      case "cyberpunk-red-core" :
+        if(settings.value("charsheet")) return cyberpunk.sheetHooks();
+        break;
+      case "worldbuilding" :
+        if(settings.value("charsheet")) return worldbuilding.sheetHooks();
+        break;
     }
   }
 

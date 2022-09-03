@@ -4,7 +4,7 @@
 	"description" : "A module that allows macros to be stored in items and executed in various places.",
 	"author" : "Kekilla#7036",
 	"version" : "",
-	"minimumCoreVersion" : "10",
+	"minimumCoreVersion" : "0.8.0",
 	"compatibleCoreVersion": "10.260",
 	"esmodules" : ["scripts/hooks.js"],
 	"system" : ["dnd5e", "sfrpg", "swade", "dungeonworld", "ose", "demonlord","worldbuilding", "pf2e"],
