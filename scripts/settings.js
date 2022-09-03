@@ -1,14 +1,26 @@
 import { logger } from "./logger.js";
 
 export class settings{  
-  static value(str){
-    return game.settings.get(settings.data.name, str);
+
+  static get isV10() {
+    return game.release?.generation >= 10;
   }
+
+  static get id() {
+    return settings.isV10 ? settings.data.id : settings.data.name;
+  }
+
+  static value(str){
+    return game.settings.get(settings.id, str);
+  }
+
   static i18n(key){
     return game.i18n.localize(key);
   }
+
   static register_module(key){
-    settings.data = game.modules.get(key)?.data;
+    const module = game.modules.get(key);
+    settings.data = settings.isV10 ? module : module.data;
     if(!settings.data) return logger.error("Module Registration Error | Data Error | ", key);
   }
 
@@ -47,7 +59,7 @@ export class settings{
 
     Object.entries(settingData).forEach(([key, data])=> {
       game.settings.register(
-        settings.data.name, key, {
+        settings.id, key, {
           name : settings.i18n(`settings.${key}.title`),
           hint : settings.i18n(`settings.${key}.hint`),
           ...data
