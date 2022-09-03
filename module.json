@@ -29,5 +29,8 @@
     "verified": "10"
   },
   "name": "itemacro",
-  "minimumCoreVersion": "0.8.0"
+  "minimumCoreVersion": "0.8.0",
+  "version": "!master",
+  "manifest": "<replaced>",
+  "download": "<replaced>",
 }
