@@ -42,7 +42,8 @@ export class helper{
       logger.debug("Item | setMacro | ", { macro, flag });
 
       if(macro instanceof Macro){
-        return await this.setFlag(settings.id, `macro`, macro);
+        const data = macro.toObject();
+        return await this.setFlag(settings.id, `macro`, data);
       }
     }
 
