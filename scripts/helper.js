@@ -23,16 +23,18 @@ export class helper{
       logger.debug("Item | hasMacro | ", { flag });
       return !!(flag?.command ?? flag?.data?.command);
     }
+	  
     Item.prototype.getMacro = function(){
       let hasMacro = this.hasMacro();
       let flag = this.getFlag(settings.id, `macro`);
 
-      const command = !!flag?.command;
-
       logger.debug("Item | getMacro | ", { hasMacro, flag });
 
-      if(hasMacro)
+      if(hasMacro) {
+	const command = !!flag?.command;
         return new Macro( command ? flag : flag?.data );
+      }
+	    
       return new Macro({ img : this.img, name : this.name, scope : "global", type : "script", });
     }
 
