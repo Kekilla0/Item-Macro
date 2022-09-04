@@ -27,7 +27,7 @@ export class helper{
       let hasMacro = this.hasMacro();
       let flag = this.getFlag(settings.id, `macro`);
 
-      const command = !!flag.command;
+      const command = !!flag?.command;
 
       logger.debug("Item | getMacro | ", { hasMacro, flag });
 
