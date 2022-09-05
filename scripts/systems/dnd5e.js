@@ -32,7 +32,9 @@ export function register_helper(){
         if ( item.hasMacro() && settings.value("defaultmacro") ) return item.executeMacro();
         return item.use();
     }
-
+    
+    // turning imported module into object so function can be overwritten.
+    // dark arts. do not touch.
     dnd5e.documents = { ...dnd5e.documents };
     dnd5e.documents.macro = { ...dnd5e.documents.macro };
     dnd5e.documents.macro.rollItem = itemMacroUseItem;
