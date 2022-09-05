@@ -30,5 +30,7 @@
     "context.prompt.content" : "Item Macro Overwrite Complete",
 
     "error.editImage":"You cannot edit the icon for this macro.",
-    "error.macroExecution" : "There was an error in your macro syntax. See the console (F12) for details"
+    "error.macroExecution" : "There was an error in your macro syntax. See the console (F12) for details",
+
+    "itemacro.dnd5e.v9deprecation": "ITEM MACRO: The hotbar functionality has been disabled for v9."
 }
