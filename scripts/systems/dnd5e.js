@@ -29,15 +29,20 @@ export function register_helper(){
 
         const item = documents[0];
         // Trigger the item usage
-        if ( item.hasMacro() && settings.value("defaultmacro") ) return item.executeMacro();
+        if ( item.hasMacro() && settings.value("defaultmacro") ) {
+            return item.executeMacro();
+        }
         return item.use();
     }
-    
-    // turning imported module into object so function can be overwritten.
-    // dark arts. do not touch.
-    dnd5e.documents = { ...dnd5e.documents };
-    dnd5e.documents.macro = { ...dnd5e.documents.macro };
-    dnd5e.documents.macro.rollItem = itemMacroUseItem;
+
+    if ( settings.isV10 ) {
+        dnd5e.documents = { ...dnd5e.documents };
+        dnd5e.documents.macro = { ...dnd5e.documents.macro };
+        dnd5e.documents.macro.rollItem = itemMacroUseItem;
+    }
+    else {
+        console.log(game.i18n.localize("itemacro.dnd5e.v9deprecation"));
+    }
 }
 
 export function sheetHooks()
