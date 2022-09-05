@@ -31,7 +31,7 @@ export class settings{
   }
 
   static reload(){
-    setTimeout(() => window.location.reload(), 500);
+    if ( !this.isV10 ) setTimeout(() => window.location.reload(), 500);
   }
 
   static register_settings(){
@@ -41,9 +41,11 @@ export class settings{
       },
       defaultmacro : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
+        requiresReload: this.isV10 ? true : undefined
       },
       charsheet : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
+        requiresReload: this.isV10 ? true : undefined
       },
       visibilty : {
         scope : "world", config : true, default : false, type : Boolean
@@ -53,6 +55,7 @@ export class settings{
       },
       click : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  ()=> settings.reload(),
+        requiresReload: this.isV10 ? true : undefined
       },
     };
 
