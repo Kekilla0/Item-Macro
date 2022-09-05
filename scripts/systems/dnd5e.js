@@ -1,33 +1,41 @@
 import { logger } from "../logger.js";
 import { settings } from "../settings.js";
 
-export function register_helper()
-{
-  logger.info(`Registering DND5E Helpers`);
-  /*
-    Override
-  */
-  game.dnd5e.macros.rollItem = function(itemName){
-    const speaker = ChatMessage.getSpeaker();
-    let actor;
-    if ( speaker.token ) actor = game.actors.tokens[speaker.token];
-    if ( !actor ) actor = game.actors.get(speaker.actor);
+export function register_helper(){
+    logger.info(`Registering DND5E Helpers`);
+    
+    /*
+        Override
+    */
+    const itemMacroUseItem = function(name) {
+        let actor;
+        const speaker = ChatMessage.getSpeaker();
+        if ( speaker.token ) actor = game.actors.tokens[speaker.token];
+        actor ??= game.actors.get(speaker.actor);
+        if ( !actor ) return ui.notifications.warn(game.i18n.localize("MACRO.5eNoActorSelected"));
 
-    // Get matching items
-    const items = actor ? actor.items.filter(i => i.name === itemName) : [];
-    if ( items.length > 1 ) {
-      ui.notifications.warn(`Your controlled Actor ${actor.name} has more than one Item with name ${itemName}. The first matched item will be chosen.`);
-    } 
-    if ( items.length === 0 ) {
-      return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+        const collection = actor.items;
+        const nameKeyPath = "name";
+
+        // Find the item in collection
+        const documents = collection.filter(i => foundry.utils.getProperty(i, nameKeyPath) === name);
+        const type = game.i18n.localize(`DOCUMENT.Item`);
+        if ( documents.length === 0 ) {
+            return ui.notifications.warn(game.i18n.format("MACRO.5eMissingTargetWarn", { actor: actor.name, type, name }));
+        }
+        if ( documents.length > 1 ) {
+            ui.notifications.warn(game.i18n.format("MACRO.5eMultipleTargetsWarn", { actor: actor.name, type, name }));
+        }
+
+        const item = documents[0];
+        // Trigger the item usage
+        if ( item.hasMacro() && settings.value("defaultmacro") ) return item.executeMacro();
+        return item.use();
     }
-    const item = items[0];
 
-    // Trigger the item roll
-    if(item.hasMacro() && settings.value("defaultmacro"))
-      return item.executeMacro();
-    return item.roll();
-  }
+    dnd5e.documents = { ...dnd5e.documents };
+    dnd5e.documents.macro = { ...dnd5e.documents.macro };
+    dnd5e.documents.macro.rollItem = itemMacroUseItem;
 }
 
 export function sheetHooks()
