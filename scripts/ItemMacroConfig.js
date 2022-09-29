@@ -12,6 +12,10 @@ export class ItemMacroConfig extends MacroConfig{
     });
   }
 
+  get id(){
+    return `itemacro-config-${this.options.item.id}`;
+  }
+
   /*
     Override
   */
