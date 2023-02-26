@@ -56,6 +56,7 @@ export class ItemMacroConfig extends MacroConfig{
         scope : "global", 
         command, 
         author : game.user.id,
+        ownership : { "default" : 3 }
       }));
   }
 
