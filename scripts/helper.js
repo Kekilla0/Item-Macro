@@ -51,7 +51,7 @@ export class helper{
 
     Item.prototype.executeMacro = function(...args){
       if(!this.hasMacro()) return;
-      const type = settings.isV10 ? this.getMacro()?.type : this.getMacro()?.data.type;
+      const type = settings.isV10OrAbove ? this.getMacro()?.type : this.getMacro()?.data.type;
       switch(type){
         case "chat" :
           //left open if chat macros ever become a thing you would want to do inside an item?

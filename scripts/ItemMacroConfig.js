@@ -35,7 +35,7 @@ export class ItemMacroConfig extends MacroConfig{
     event.preventDefault();
     let item = this.options.item;
     let command = this._element[0].querySelectorAll('textarea')[0].value;
-    let type = this._element[0].querySelectorAll('select')[1].value;
+    let type = this._element[0].querySelectorAll('select')[1].value.toLowerCase();
 
     logger.debug("ItemMacroConfig.js | _onExecute  | ", {event, item, command, type});
 
