@@ -1,3 +1,6 @@
+# Credits
+This module was originally made by Kekilla0 and can be found on https://github.com/Kekilla0/Item-Macro. This fork is specifically made to fix issues that cropped in in V11.
+
 # Item Macro
 
 This is a FoundryVTT module for the **5e, SFRPG, SWADE, Old-School Essentials, Dungeon World, and Simple Worldbuilding (as of now) systems. It allow macros to be saved inside of an item and for various different ways to execute macros.  
