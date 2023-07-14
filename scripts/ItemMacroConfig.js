@@ -47,21 +47,21 @@ export class ItemMacroConfig extends MacroConfig{
     item.executeMacro(event);
   }
 
-  async updateMacro({ command, type }){
+  async updateMacro({ command, type, flags }){
     let item = this.options.item;
     let macro = item.getMacro();
 
     logger.debug("ItemMacroConfig.js | updateMacro  | ", {command, type, item, macro});
 
-    if(macro.command != command)
-      await item.setMacro(new Macro({
-        name : item.name, 
-        type, 
-        scope : "global", 
-        command, 
-        author : game.user.id,
-        ownership : { "default" : 3 }
-      }));
+    await item.setMacro(new Macro({
+      name : item.name, 
+      type, 
+      scope : "global", 
+      command, 
+      author : game.user.id,
+      ownership : { "default" : 3 },
+		  flags,
+    }));
   }
 
 
