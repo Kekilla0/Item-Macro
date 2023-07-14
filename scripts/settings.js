@@ -2,12 +2,16 @@ import { logger } from "./logger.js";
 
 export class settings{  
 
-  static get isV10() {
+  static get isV11() {
+    return game.release?.generation >= 11;
+  }
+
+  static get isV10OrAbove() {
     return game.release?.generation >= 10;
   }
 
   static get id() {
-    return settings.isV10 ? settings.data.id : settings.data.name;
+    return settings.isV10OrAbove ? settings.data.id : settings.data.name;
   }
 
   static value(str){
@@ -20,7 +24,7 @@ export class settings{
 
   static register_module(key){
     const module = game.modules.get(key);
-    settings.data = settings.isV10 ? module : module.data;
+    settings.data = settings.isV10OrAbove ? module : module.data;
     if(!settings.data) return logger.error("Module Registration Error | Data Error | ", key);
   }
 
@@ -31,7 +35,7 @@ export class settings{
   }
 
   static reload(){
-    if ( !this.isV10 ) setTimeout(() => window.location.reload(), 500);
+    if ( !this.isV10OrAbove ) setTimeout(() => window.location.reload(), 500);
   }
 
   static register_settings(){
@@ -41,11 +45,11 @@ export class settings{
       },
       defaultmacro : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
-        requiresReload: this.isV10 ? true : undefined
+        requiresReload: this.isV10OrAbove ? true : undefined
       },
       charsheet : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  () => settings.reload(),
-        requiresReload: this.isV10 ? true : undefined
+        requiresReload: this.isV10OrAbove ? true : undefined
       },
       visibilty : {
         scope : "world", config : true, default : false, type : Boolean
@@ -55,10 +59,9 @@ export class settings{
       },
       click : {
         scope : "world", config : true, default : false, type : Boolean, onChange :  ()=> settings.reload(),
-        requiresReload: this.isV10 ? true : undefined
+        requiresReload: this.isV10OrAbove ? true : undefined
       },
     };
-
 
     Object.entries(settingData).forEach(([key, data])=> {
       game.settings.register(

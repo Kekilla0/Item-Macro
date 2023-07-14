@@ -35,7 +35,7 @@ export function register_helper(){
         return item.use();
     }
 
-    if ( settings.isV10 ) {
+    if ( settings.isV10OrAbove ) {
         dnd5e.documents = { ...dnd5e.documents };
         dnd5e.documents.macro = { ...dnd5e.documents.macro };
         dnd5e.documents.macro.rollItem = itemMacroUseItem;
